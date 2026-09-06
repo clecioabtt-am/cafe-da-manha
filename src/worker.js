@@ -1,0 +1,85 @@
+const JSON_HEADERS={"Content-Type":"application/json; charset=utf-8"};
+const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:JSON_HEADERS});
+
+function isAdmin(request,env){
+  return (request.headers.get("X-Admin-User")||"")===(env.ADMIN_USER||"admin") &&
+         (request.headers.get("X-Admin-Password")||"")===(env.ADMIN_PASSWORD||"admin123");
+}
+
+async function createOrder(request,env){
+  const body=await request.json().catch(()=>null);
+  if(!body?.customer_name || !Array.isArray(body.items) || !body.items.length) return json({error:"Dados do pedido inválidos."},400);
+
+  const ids=[...new Set(body.items.map(i=>Number(i.menu_item_id)).filter(Boolean))];
+  const marks=ids.map(()=>"?").join(",");
+  const {results:rows}=await env.DB.prepare(`SELECT id,name,price FROM menu_items WHERE active=1 AND id IN (${marks})`).bind(...ids).all();
+  const map=new Map(rows.map(r=>[Number(r.id),r]));
+
+  let total=0; const normalized=[];
+  for(const item of body.items){
+    const id=Number(item.menu_item_id),qty=Math.max(1,Math.min(99,Number(item.quantity||1)));
+    const p=map.get(id); if(!p) continue;
+    total+=Number(p.price)*qty; normalized.push({id,qty,price:Number(p.price)});
+  }
+  if(!normalized.length) return json({error:"Itens não encontrados."},400);
+
+  const number=String(Date.now()).slice(-6);
+  const result=await env.DB.prepare(`INSERT INTO orders(order_number,customer_name,note,total,status) VALUES(?,?,?,?, 'Novo')`)
+    .bind(number,String(body.customer_name).trim().slice(0,120),String(body.note||"").trim().slice(0,500),total).run();
+
+  const orderId=result.meta.last_row_id;
+  await env.DB.batch(normalized.map(i=>env.DB.prepare(`INSERT INTO order_items(order_id,menu_item_id,quantity,unit_price) VALUES(?,?,?,?)`).bind(orderId,i.id,i.qty,i.price)));
+  return json({ok:true,order_id:orderId,order_number:number,total},201);
+}
+
+async function adminOrders(request,env){
+  if(!isAdmin(request,env)) return json({error:"Não autorizado."},401);
+  const url=new URL(request.url),search=(url.searchParams.get("search")||"").trim();
+  let sql=`SELECT id,order_number,customer_name,note,total,status,created_at FROM orders`; const binds=[];
+  if(search){sql+=` WHERE customer_name LIKE ? OR order_number LIKE ?`;binds.push(`%${search}%`,`%${search}%`);}
+  sql+=` ORDER BY id DESC LIMIT 300`;
+  const stmt=env.DB.prepare(sql);
+  const {results:orders}=binds.length?await stmt.bind(...binds).all():await stmt.all();
+
+  if(orders.length){
+    const ids=orders.map(o=>o.id),marks=ids.map(()=>"?").join(",");
+    const {results:items}=await env.DB.prepare(`SELECT oi.order_id,oi.quantity,mi.name FROM order_items oi JOIN menu_items mi ON mi.id=oi.menu_item_id WHERE oi.order_id IN (${marks}) ORDER BY oi.id`).bind(...ids).all();
+    const grouped=new Map();
+    for(const i of items){if(!grouped.has(i.order_id))grouped.set(i.order_id,[]);grouped.get(i.order_id).push(i);}
+    orders.forEach(o=>o.items=grouped.get(o.id)||[]);
+  }
+
+  const s=await env.DB.prepare(`SELECT COUNT(*) orders,SUM(CASE WHEN status='Novo' THEN 1 ELSE 0 END) new,SUM(CASE WHEN status='Em preparo' THEN 1 ELSE 0 END) preparing,COALESCE(SUM(total),0) revenue FROM orders`).first();
+  return json({orders,stats:{orders:Number(s.orders||0),new:Number(s.new||0),preparing:Number(s.preparing||0),revenue:Number(s.revenue||0)}});
+}
+
+export default{
+  async fetch(request,env){
+    const url=new URL(request.url),path=url.pathname;
+
+    if(path==="/api/orders" && request.method==="POST") return createOrder(request,env);
+
+    if(path==="/api/admin/login" && request.method==="POST"){
+      const b=await request.json().catch(()=>({}));
+      return (b.user===(env.ADMIN_USER||"admin") && b.password===(env.ADMIN_PASSWORD||"admin123"))
+        ? json({ok:true}) : json({error:"Credenciais inválidas."},401);
+    }
+
+    if(path==="/api/admin/orders" && request.method==="GET") return adminOrders(request,env);
+
+    const m=path.match(/^\/api\/admin\/orders\/(\d+)$/);
+    if(m && request.method==="PATCH"){
+      if(!isAdmin(request,env)) return json({error:"Não autorizado."},401);
+      const b=await request.json().catch(()=>null);
+      if(!["Novo","Em preparo","Pronto","Concluído"].includes(b?.status)) return json({error:"Status inválido."},400);
+      await env.DB.prepare(`UPDATE orders SET status=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(b.status,Number(m[1])).run();
+      return json({ok:true});
+    }
+    if(m && request.method==="DELETE"){
+      if(!isAdmin(request,env)) return json({error:"Não autorizado."},401);
+      await env.DB.prepare(`DELETE FROM orders WHERE id=?`).bind(Number(m[1])).run();
+      return json({ok:true});
+    }
+    return env.ASSETS.fetch(request);
+  }
+};

@@ -1,0 +1,13 @@
+{
+  "name": "cafe-da-manha-v8",
+  "version": "8.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:remote": "wrangler d1 execute cafe-da-manha-db --remote --file=./schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

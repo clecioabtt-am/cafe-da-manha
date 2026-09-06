@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6b3218">
+<title>Café da Manhã | Sua Logo Aqui</title>
+<style>
+:root {
+  --bg:#f7f1eb; --panel:#ffffff; --panel-soft:#fff8f1; --line:#eadbce;
+  --text:#2e1a10; --muted:#826e63; --brand:#6b3218; --brand2:#8d441f;
+  --brand3:#4f210f; --gold:#ffc34b; --green:#14a44d; --red:#c44736;
+  --shadow:0 12px 28px rgba(72,31,12,.09); --radius:20px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:linear-gradient(180deg,#fbf6f1 0%, #f4eee8 100%); color:var(--text);
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+.topbar{
+  position:sticky;top:0;z-index:50;background:linear-gradient(90deg,var(--brand3),var(--brand),var(--brand2));
+  color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.14);
+}
+.topbar-inner{
+  max-width:1450px;margin:auto;min-height:74px;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:10px 18px;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{
+  width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
+  background:rgba(255,255,255,.12);font-size:26px;
+}
+.brand strong{display:block;color:#ffcd62;font-size:20px;line-height:1}
+.brand small{display:block;margin-top:4px;font-size:11px;opacity:.9}
+.nav{display:flex;align-items:center;gap:8px}
+.nav a{padding:10px 12px;border-radius:12px;font-weight:800;font-size:14px}
+.nav a.active,.nav a:hover{background:rgba(255,255,255,.12)}
+.admin-btn{
+  border:0;background:#fff;color:var(--brand);border-radius:14px;padding:11px 14px;font-weight:1000;
+}
+.hero{
+  width:100%;color:#fff;background:
+    radial-gradient(circle at 82% 32%, rgba(255,197,82,.18), transparent 20%),
+    linear-gradient(120deg,#2d1207 0%, #663019 55%, #8f471f 100%);
+}
+.hero-inner{
+  width:100%;max-width:1450px;margin:0 auto;padding:36px 20px;min-height:310px;
+  display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center;
+}
+.hero-copy .tag{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.09);
+  font-size:13px;font-weight:800;margin-bottom:15px;
+}
+.hero-copy h1{
+  margin:0 0 14px;font-size:clamp(42px,6vw,72px);line-height:.95;letter-spacing:-1.4px;
+}
+.hero-copy h1 span{color:var(--gold)}
+.hero-copy p{margin:0;max-width:620px;font-size:18px;line-height:1.5;color:#f6eae0}
+.hero-note{margin-top:16px;font-style:italic;font-weight:800;color:#ffe8cf}
+.hero-visual{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.food-box{
+  min-height:128px;border-radius:28px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#fff8ef,#edd3b9);box-shadow:0 16px 28px rgba(0,0,0,.2);font-size:64px;
+}
+.wrapper{max-width:1450px;margin:auto;padding:20px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px}
+.panel{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+}
+.catalog-panel{padding:18px}
+.controls{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px}
+.name-field{
+  display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:14px;padding:8px 12px;
+}
+.name-field input{
+  width:100%;border:0;outline:0;background:transparent;padding:10px 0;color:var(--text);font-size:16px;
+}
+.care-box{
+  background:#fff8e9;border:1px solid #f1e0bf;color:#6a4d3e;border-radius:14px;padding:13px 14px;font-size:12px;font-weight:800;
+}
+.categories{margin-top:16px;display:flex;gap:10px;overflow:auto;padding-bottom:4px}
+.category-btn{
+  flex:0 0 auto;min-width:120px;border:1px solid var(--line);background:var(--panel-soft);color:#4e2a19;
+  border-radius:14px;padding:12px 12px;font-weight:1000;
+}
+.category-btn span{display:block;font-size:22px;margin-bottom:4px}
+.category-btn.active{background:linear-gradient(145deg,var(--brand),var(--brand2));color:#fff;border-color:var(--brand)}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:18px 0 12px}
+.section-head small{display:block;color:var(--brand2);font-size:11px;font-weight:1000;letter-spacing:.8px}
+.section-head h2{margin:4px 0 0;font-size:25px}
+.section-head .count{color:var(--muted);font-weight:800;font-size:13px}
+.product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.product-card{
+  display:flex;flex-direction:column;border:1px solid var(--line);border-radius:18px;background:#fff;padding:10px;
+}
+.product-card.hidden{display:none}
+.product-visual{
+  height:112px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#f7e7d6,#fff7ef);font-size:58px;
+}
+.product-info h3{margin:10px 0 4px;text-align:center;font-size:14px;line-height:1.25;min-height:34px}
+.product-info p{margin:0;text-align:center;font-size:11px;color:var(--muted);min-height:28px}
+.price{margin:8px 0 10px;text-align:center;color:#9a2f13;font-size:18px;font-weight:1000}
+.stepper{display:grid;grid-template-columns:38px 1fr 38px;align-items:center;gap:6px;margin-top:auto}
+.stepper button{
+  border:0;width:38px;height:38px;border-radius:50%;background:var(--brand2);color:#fff;font-size:21px;font-weight:1000;
+}
+.stepper strong{text-align:center;font-size:16px}
+.cart-panel{padding:16px;position:sticky;top:94px;align-self:start}
+.cart-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid #eee}
+.cart-head small{display:block;color:var(--brand2);font-size:11px;font-weight:1000;letter-spacing:.8px}
+.cart-head h2{margin:4px 0 0;font-size:24px}
+.cart-badge{
+  width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:1000;background:var(--gold);color:#4a240f;
+}
+.cart-items{max-height:370px;overflow:auto;padding-right:3px}
+.empty{padding:28px 10px;text-align:center;color:#927d72;font-size:14px}
+.cart-item{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid #eee}
+.cart-icon{
+  width:48px;height:48px;border-radius:12px;background:#f8e9dc;display:grid;place-items:center;font-size:28px;
+}
+.cart-name{font-weight:900;font-size:13px;line-height:1.2}
+.cart-desc{font-size:11px;color:var(--muted);margin-top:3px}
+.cart-price{font-size:12px;color:#6c5445;margin-top:4px}
+.cart-step{display:flex;align-items:center;gap:5px}
+.cart-step button{
+  width:28px;height:28px;border-radius:50%;border:0;background:var(--brand);color:#fff;font-weight:1000;
+}
+.cart-step .remove{background:transparent;color:var(--red);font-size:16px}
+.note-box{margin-top:12px}
+.note-box label{display:block;font-weight:900;margin-bottom:6px}
+.note-box small{color:var(--muted);font-weight:600}
+.note-box textarea{
+  width:100%;min-height:84px;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:10px;outline:0;
+}
+.total-box{
+  margin:13px 0;padding:14px;border-radius:14px;background:#fff0bf;display:flex;justify-content:space-between;align-items:center;
+}
+.total-box span{font-weight:900}
+.total-box strong{font-size:28px}
+.primary-btn,.secondary-btn{
+  width:100%;border-radius:13px;padding:13px;font-weight:1000;font-size:16px;
+}
+.primary-btn{border:0;background:var(--green);color:#fff}
+.secondary-btn{margin-top:8px;border:1px solid #b68060;background:#fff;color:var(--brand)}
+.local-note{margin-top:12px;text-align:center;font-size:11px;color:var(--muted);line-height:1.45}
+.benefits{
+  margin-top:22px;display:grid;grid-template-columns:repeat(4,1fr);border-radius:20px;overflow:hidden;
+  background:linear-gradient(90deg,var(--brand3),var(--brand));color:#fff;
+}
+.benefits article{
+  display:flex;align-items:center;gap:10px;padding:16px;border-right:1px solid rgba(255,255,255,.08);
+}
+.benefits article:last-child{border-right:0}
+.benefits .icon{font-size:24px}
+.benefits strong{display:block;font-size:13px}
+.benefits small{display:block;font-size:11px;color:#e2d1c6;margin-top:3px}
+footer{margin-top:24px;background:#261107;color:#fff}
+.footer-inner{
+  max-width:1450px;margin:auto;padding:24px 20px;display:flex;justify-content:space-between;gap:16px;font-size:13px;
+}
+.footer-inner span{color:#dcc6ba}
+.modal{
+  position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+  background:rgba(18,9,4,.74);backdrop-filter:blur(4px);padding:16px;
+}
+.modal.open{display:flex}
+.modal-card{
+  width:min(1040px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:24px;position:relative;
+  box-shadow:0 26px 70px rgba(0,0,0,.28);
+}
+.login-card{width:min(420px,100%);padding:24px}
+.close-btn{
+  position:absolute;top:14px;right:14px;width:40px;height:40px;border:0;border-radius:50%;
+  background:#f4eee9;color:#4e2917;font-size:24px;
+}
+.login-tip{
+  background:#fff8e9;border:1px solid #f1dfbf;color:#6b4f40;border-radius:12px;padding:10px 12px;font-size:13px;
+}
+.form-field{display:block;margin-top:12px}
+.form-field span{display:block;font-weight:900;font-size:13px;margin-bottom:5px}
+.form-field input,.toolbar input{
+  width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;outline:0;
+}
+.login-error{min-height:18px;color:#b52d1f;font-size:13px;font-weight:800}
+.login-submit{width:100%;border:0;border-radius:12px;padding:13px;background:var(--brand);color:#fff;font-weight:1000}
+.admin-card{padding:22px}
+.admin-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-right:52px}
+.admin-top small{display:block;color:var(--brand2);font-size:11px;font-weight:1000;letter-spacing:.8px}
+.admin-top h2{margin:4px 0 0;font-size:28px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 14px}
+.stats article{background:#f8f3ee;border-radius:16px;padding:15px}
+.stats span{display:block;color:var(--muted);font-size:12px;font-weight:800}
+.stats strong{display:block;font-size:24px;margin-top:6px}
+.toolbar{display:flex;gap:10px;justify-content:space-between;margin-bottom:12px}
+.toolbar button{
+  border:1px solid #df9f96;background:#fff;color:#ab2d20;border-radius:12px;padding:11px 12px;font-weight:900;
+}
+.table-wrap{overflow:auto}
+.admin-table{width:100%;min-width:900px;border-collapse:collapse}
+.admin-table th,.admin-table td{
+  padding:11px 10px;border-bottom:1px solid #eee;text-align:left;font-size:12px;vertical-align:top;
+}
+.admin-table th{background:#fbf8f5;color:#70594c}
+.status-select{
+  border:1px solid var(--line);border-radius:999px;padding:7px 9px;background:#fff;font-size:12px;font-weight:900;
+}
+.delete-order{border:0;background:#fff0ee;color:#a92d21;border-radius:10px;padding:7px 10px;font-weight:900}
+.admin-empty{display:none;padding:30px;text-align:center;color:var(--muted)}
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:#241108;color:#fff;border-radius:12px;
+  padding:12px 16px;font-size:13px;font-weight:800;opacity:0;pointer-events:none;transition:.2s ease;z-index:200;
+  box-shadow:0 12px 28px rgba(0,0,0,.25);
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (max-width:1180px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:960px){
+  .nav{display:none}.hero-inner{grid-template-columns:1fr;min-height:auto}
+  .layout{grid-template-columns:1fr}.cart-panel{position:static}
+  .benefits{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:700px){
+  .topbar-inner{padding:10px 12px;min-height:66px}.brand-icon{width:42px;height:42px;font-size:23px}
+  .brand strong{font-size:16px}.brand small{display:none}.admin-btn{padding:9px 11px;font-size:12px}
+  .hero-inner{padding:28px 14px;width:100%}.hero-copy p{font-size:15px}.hero-visual{display:none}
+  .wrapper{padding:12px}.catalog-panel{padding:12px}.controls{grid-template-columns:1fr}.care-box{display:none}
+  .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .product-visual{height:92px;font-size:48px}.product-info h3{font-size:12px;min-height:30px}
+  .product-info p{font-size:10px;min-height:26px}.price{font-size:15px}
+  .stepper{grid-template-columns:32px 1fr 32px}.stepper button{width:32px;height:32px}
+  .cart-panel{padding:13px}.benefits{grid-template-columns:1fr 1fr}.benefits article{padding:12px}
+  .footer-inner{flex-direction:column}.admin-card{padding:14px}.toolbar{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-icon">☕</div>
+      <div>
+        <strong>SUA LOGO AQUI</strong>
+        <small>Sabor que começa o seu dia!</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a class="active" href="#inicio">Início</a>
+      <a href="#cardapio">Cardápio</a>
+      <a href="#vantagens">Vantagens</a>
+    </nav>
+    <button id="openAdmin" class="admin-btn" type="button">🔐 Área Administrativa</button>
+  </div>
+</header>
+
+<section id="inicio" class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="tag">☀️ Café da manhã feito com carinho</div>
+      <h1>Comece o seu dia <span>com mais sabor.</span></h1>
+      <p>Informe seu nome, escolha seus itens favoritos, acompanhe o total do pedido e finalize tudo de forma rápida e profissional.</p>
+      <div class="hero-note">Mais que um café, um bom dia! ♡</div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="food-box">🥪</div>
+      <div class="food-box">☕</div>
+      <div class="food-box">🌮</div>
+      <div class="food-box">🥤</div>
+    </div>
+  </div>
+</section>
+
+<div class="wrapper">
+  <div class="layout">
+    <section id="cardapio" class="panel catalog-panel">
+      <div class="controls">
+        <label class="name-field">👤 <input id="customerName" type="text" placeholder="Digite seu nome aqui..." maxlength="80"></label>
+        <div class="care-box">🤎 Seu pedido será preparado com muito carinho!</div>
+      </div>
+
+      <div class="categories">
+        <button class="category-btn active" type="button" onclick="setCategory('Todos', this)"><span>🍽️</span>Todos</button>
+        <button class="category-btn" type="button" onclick="setCategory('Lanches', this)"><span>🥪</span>Lanches</button>
+        <button class="category-btn" type="button" onclick="setCategory('Tapiocas', this)"><span>🌮</span>Tapiocas</button>
+        <button class="category-btn" type="button" onclick="setCategory('Regionais', this)"><span>🌽</span>Regionais</button>
+        <button class="category-btn" type="button" onclick="setCategory('Bebidas', this)"><span>☕</span>Bebidas</button>
+        <button class="category-btn" type="button" onclick="setCategory('Sucos', this)"><span>🥤</span>Sucos</button>
+      </div>
+
+      <div class="section-head">
+        <div>
+          <small>CARDÁPIO</small>
+          <h2 id="categoryTitle">Todos os itens</h2>
+        </div>
+        <div id="categoryCount" class="count">23 itens</div>
+      </div>
+
+      <div id="productGrid" class="product-grid">
+        
+    <article class="product-card" data-category="Lanches">
+      <div class="product-visual">🥪</div>
+      <div class="product-info">
+        <h3>X-Caboquinho</h3>
+        <p>Pão, queijo, tucumã e banana</p>
+        <div class="price">R$ 12,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(1)">−</button>
+        <strong id="qty-1">0</strong>
+        <button type="button" onclick="increaseItem(1)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Lanches">
+      <div class="product-visual">🥪</div>
+      <div class="product-info">
+        <h3>Misto</h3>
+        <p>Queijo e presunto</p>
+        <div class="price">R$ 8,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(2)">−</button>
+        <strong id="qty-2">0</strong>
+        <button type="button" onclick="increaseItem(2)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Lanches">
+      <div class="product-visual">🍳</div>
+      <div class="product-info">
+        <h3>Misto com Ovo</h3>
+        <p>Misto reforçado com ovo</p>
+        <div class="price">R$ 10,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(3)">−</button>
+        <strong id="qty-3">0</strong>
+        <button type="button" onclick="increaseItem(3)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Lanches">
+      <div class="product-visual">🥚</div>
+      <div class="product-info">
+        <h3>Pão com Ovo</h3>
+        <p>Tradicional e saboroso</p>
+        <div class="price">R$ 7,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(4)">−</button>
+        <strong id="qty-4">0</strong>
+        <button type="button" onclick="increaseItem(4)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Lanches">
+      <div class="product-visual">🥖</div>
+      <div class="product-info">
+        <h3>Pão com Tucumã</h3>
+        <p>Sabor regional</p>
+        <div class="price">R$ 9,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(5)">−</button>
+        <strong id="qty-5">0</strong>
+        <button type="button" onclick="increaseItem(5)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Tapiocas">
+      <div class="product-visual">🌮</div>
+      <div class="product-info">
+        <h3>Tapioca Simples</h3>
+        <p>Tapioca tradicional</p>
+        <div class="price">R$ 6,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(6)">−</button>
+        <strong id="qty-6">0</strong>
+        <button type="button" onclick="increaseItem(6)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Tapiocas">
+      <div class="product-visual">🌮</div>
+      <div class="product-info">
+        <h3>Tapioca Mista</h3>
+        <p>Queijo e presunto</p>
+        <div class="price">R$ 9,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(7)">−</button>
+        <strong id="qty-7">0</strong>
+        <button type="button" onclick="increaseItem(7)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Tapiocas">
+      <div class="product-visual">🍳</div>
+      <div class="product-info">
+        <h3>Tapioca Mista com Ovo</h3>
+        <p>Mais proteína</p>
+        <div class="price">R$ 11,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(8)">−</button>
+        <strong id="qty-8">0</strong>
+        <button type="button" onclick="increaseItem(8)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Tapiocas">
+      <div class="product-visual">🍌</div>
+      <div class="product-info">
+        <h3>Tapioca Mista com Ovo e Banana</h3>
+        <p>Doce e salgada</p>
+        <div class="price">R$ 13,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(9)">−</button>
+        <strong id="qty-9">0</strong>
+        <button type="button" onclick="increaseItem(9)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Tapiocas">
+      <div class="product-visual">🌴</div>
+      <div class="product-info">
+        <h3>Tapioca Mista com Ovo e Tucumã</h3>
+        <p>Regional reforçada</p>
+        <div class="price">R$ 14,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(10)">−</button>
+        <strong id="qty-10">0</strong>
+        <button type="button" onclick="increaseItem(10)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Regionais">
+      <div class="product-visual">🌽</div>
+      <div class="product-info">
+        <h3>Cuscuz Simples</h3>
+        <p>Bem soltinho</p>
+        <div class="price">R$ 6,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(11)">−</button>
+        <strong id="qty-11">0</strong>
+        <button type="button" onclick="increaseItem(11)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Regionais">
+      <div class="product-visual">🍳</div>
+      <div class="product-info">
+        <h3>Cuscuz com Ovo</h3>
+        <p>Cuscuz com ovo</p>
+        <div class="price">R$ 9,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(12)">−</button>
+        <strong id="qty-12">0</strong>
+        <button type="button" onclick="increaseItem(12)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Regionais">
+      <div class="product-visual">🌴</div>
+      <div class="product-info">
+        <h3>Cuscuz com Tucumã</h3>
+        <p>Cuscuz regional</p>
+        <div class="price">R$ 11,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(13)">−</button>
+        <strong id="qty-13">0</strong>
+        <button type="button" onclick="increaseItem(13)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Regionais">
+      <div class="product-visual">🥣</div>
+      <div class="product-info">
+        <h3>Mingau de Munguzá</h3>
+        <p>Cremoso e quentinho</p>
+        <div class="price">R$ 7,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(14)">−</button>
+        <strong id="qty-14">0</strong>
+        <button type="button" onclick="increaseItem(14)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Bebidas">
+      <div class="product-visual">☕</div>
+      <div class="product-info">
+        <h3>Café Preto</h3>
+        <p>Quente e tradicional</p>
+        <div class="price">R$ 3,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(15)">−</button>
+        <strong id="qty-15">0</strong>
+        <button type="button" onclick="increaseItem(15)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Bebidas">
+      <div class="product-visual">🥛</div>
+      <div class="product-info">
+        <h3>Café com Leite</h3>
+        <p>Leve e saboroso</p>
+        <div class="price">R$ 4,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(16)">−</button>
+        <strong id="qty-16">0</strong>
+        <button type="button" onclick="increaseItem(16)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Bebidas">
+      <div class="product-visual">🍫</div>
+      <div class="product-info">
+        <h3>Nescau</h3>
+        <p>Achocolatado</p>
+        <div class="price">R$ 5,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(17)">−</button>
+        <strong id="qty-17">0</strong>
+        <button type="button" onclick="increaseItem(17)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Sucos">
+      <div class="product-visual">🍊</div>
+      <div class="product-info">
+        <h3>Suco de Laranja</h3>
+        <p>Natural</p>
+        <div class="price">R$ 6,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(18)">−</button>
+        <strong id="qty-18">0</strong>
+        <button type="button" onclick="increaseItem(18)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Sucos">
+      <div class="product-visual">🥤</div>
+      <div class="product-info">
+        <h3>Suco de Acerola</h3>
+        <p>Refrescante</p>
+        <div class="price">R$ 6,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(19)">−</button>
+        <strong id="qty-19">0</strong>
+        <button type="button" onclick="increaseItem(19)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Sucos">
+      <div class="product-visual">🥤</div>
+      <div class="product-info">
+        <h3>Suco de Cupuaçu</h3>
+        <p>Regional</p>
+        <div class="price">R$ 7,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(20)">−</button>
+        <strong id="qty-20">0</strong>
+        <button type="button" onclick="increaseItem(20)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Sucos">
+      <div class="product-visual">🥤</div>
+      <div class="product-info">
+        <h3>Suco de Maracujá</h3>
+        <p>Geladinho</p>
+        <div class="price">R$ 6,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(21)">−</button>
+        <strong id="qty-21">0</strong>
+        <button type="button" onclick="increaseItem(21)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Sucos">
+      <div class="product-visual">🥤</div>
+      <div class="product-info">
+        <h3>Suco de Taperebá</h3>
+        <p>Sabor amazônico</p>
+        <div class="price">R$ 7,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(22)">−</button>
+        <strong id="qty-22">0</strong>
+        <button type="button" onclick="increaseItem(22)">+</button>
+      </div>
+    </article>
+    
+
+    <article class="product-card" data-category="Sucos">
+      <div class="product-visual">🥤</div>
+      <div class="product-info">
+        <h3>Suco de Goiaba</h3>
+        <p>Clássico</p>
+        <div class="price">R$ 6,00</div>
+      </div>
+      <div class="stepper">
+        <button type="button" onclick="decreaseItem(23)">−</button>
+        <strong id="qty-23">0</strong>
+        <button type="button" onclick="increaseItem(23)">+</button>
+      </div>
+    </article>
+    
+      </div>
+    </section>
+
+    <aside class="panel cart-panel">
+      <div class="cart-head">
+        <div>
+          <small>RESUMO</small>
+          <h2>🛒 Meu Pedido</h2>
+        </div>
+        <div id="cartBadge" class="cart-badge">0</div>
+      </div>
+
+      <div id="cartItems" class="cart-items">
+        <div class="empty">Seu pedido está vazio.<br>Use os botões <strong>−</strong> e <strong>+</strong> nos itens.</div>
+      </div>
+
+      <div class="note-box">
+        <label for="orderNote">Observação <small>(opcional)</small></label>
+        <textarea id="orderNote" placeholder="Ex.: sem açúcar, sem queijo, bem passado..."></textarea>
+      </div>
+
+      <div class="total-box">
+        <span>Total do pedido</span>
+        <strong id="cartTotal">R$ 0,00</strong>
+      </div>
+
+      <button id="finishOrder" class="primary-btn" type="button">✅ Finalizar Pedido</button>
+      <button id="clearCartBtn" class="secondary-btn" type="button">🗑 Limpar Pedido</button>
+
+      <div class="local-note">☁️ V8 conectada ao Cloudflare D1: os pedidos aparecem no painel em qualquer dispositivo.</div>
+    </aside>
+  </div>
+
+  <section id="vantagens" class="benefits">
+    <article><div class="icon">⚡</div><div><strong>Pedido rápido</strong><small>Cliente escolhe e finaliza em segundos.</small></div></article>
+    <article><div class="icon">📋</div><div><strong>Cardápio organizado</strong><small>Itens separados por categorias.</small></div></article>
+    <article><div class="icon">💰</div><div><strong>Total automático</strong><small>Valor atualizado em tempo real.</small></div></article>
+    <article><div class="icon">📊</div><div><strong>Painel administrativo</strong><small>Controle de pedidos e status.</small></div></article>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <strong>☕ SUA LOGO AQUI</strong>
+    <span>Modelo profissional para empreendedores de café da manhã.</span>
+  </div>
+</footer>
+
+<div id="loginModal" class="modal">
+  <div class="modal-card login-card">
+    <button class="close-btn" type="button" onclick="closeModal('loginModal')">×</button>
+    <h2>🔐 Área Administrativa</h2>
+    <p class="login-tip">Usuário: <strong>admin</strong><br>Senha: <strong>admin123</strong></p>
+    <label class="form-field"><span>Usuário</span><input id="adminUser" type="text"></label>
+    <label class="form-field"><span>Senha</span><input id="adminPassword" type="password"></label>
+    <p id="loginError" class="login-error"></p>
+    <button id="doLogin" class="login-submit" type="button">Entrar</button>
+  </div>
+</div>
+
+<div id="adminModal" class="modal">
+  <div class="modal-card admin-card">
+    <div class="admin-top">
+      <div><small>PAINEL ADMINISTRATIVO</small><h2>Gestão de Pedidos</h2></div>
+      <button class="close-btn" type="button" onclick="closeModal('adminModal')">×</button>
+    </div>
+
+    <div class="stats">
+      <article><span>Pedidos</span><strong id="statOrders">0</strong></article>
+      <article><span>Novos</span><strong id="statNew">0</strong></article>
+      <article><span>Em preparo</span><strong id="statPreparing">0</strong></article>
+      <article><span>Faturamento</span><strong id="statRevenue">R$ 0,00</strong></article>
+    </div>
+
+    <div class="toolbar">
+      <input id="searchOrder" type="search" placeholder="Buscar cliente ou número...">
+      <button id="clearAllOrdersBtn" type="button">Limpar todos</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>#</th><th>Cliente</th><th>Itens</th><th>Total</th><th>Horário</th><th>Status</th><th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="adminRows"></tbody>
+      </table>
+    </div>
+    <div id="adminEmpty" class="admin-empty">Nenhum pedido registrado ainda.</div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const products = {};
+document.querySelectorAll(".product-card").forEach(card => {
+  const plus = card.querySelector(".stepper button:last-child");
+  const match = plus && plus.getAttribute("onclick") ? plus.getAttribute("onclick").match(/\((\d+)\)/) : null;
+  const id = match ? Number(match[1]) : null;
+  if (!id) return;
+  const name = card.querySelector("h3")?.textContent?.trim() || "Item";
+  const category = card.dataset.category || "Outros";
+  const priceText = card.querySelector(".price")?.textContent || "0";
+  const price = Number(priceText.replace(/[^\d,]/g,"").replace(",","."));
+  const icon = card.querySelector(".product-visual")?.textContent?.trim() || "🍽️";
+  const desc = card.querySelector(".product-info p")?.textContent?.trim() || "";
+  products[id] = {id,name,category,price,icon,desc};
+});
+
+let cart = {};
+let adminAuth = null;
+
+function formatMoney(v){ return Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"}); }
+function showToast(message){
+  const toast=document.getElementById("toast");
+  toast.textContent=message;toast.classList.add("show");
+  clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>toast.classList.remove("show"),2200);
+}
+function openModal(id){document.getElementById(id).classList.add("open");document.body.style.overflow="hidden";}
+function closeModal(id){document.getElementById(id).classList.remove("open");if(!document.querySelector(".modal.open"))document.body.style.overflow="";}
+function setCategory(category, button){
+  document.querySelectorAll(".category-btn").forEach(btn=>btn.classList.remove("active"));
+  if(button) button.classList.add("active");
+  let count=0;
+  document.querySelectorAll(".product-card").forEach(card=>{
+    const visible=category==="Todos" || card.dataset.category===category;
+    card.classList.toggle("hidden",!visible); if(visible) count++;
+  });
+  document.getElementById("categoryTitle").textContent=category==="Todos"?"Todos os itens":category;
+  document.getElementById("categoryCount").textContent=count+" "+(count===1?"item":"itens");
+}
+function increaseItem(id){id=Number(id);cart[id]=(cart[id]||0)+1;const q=document.getElementById("qty-"+id);if(q)q.textContent=cart[id];renderCart();}
+function decreaseItem(id){id=Number(id);if(!cart[id])return;cart[id]--;if(cart[id]<=0)delete cart[id];const q=document.getElementById("qty-"+id);if(q)q.textContent=cart[id]||0;renderCart();}
+function removeItem(id){id=Number(id);delete cart[id];const q=document.getElementById("qty-"+id);if(q)q.textContent="0";renderCart();}
+function clearCart(){cart={};document.querySelectorAll('[id^="qty-"]').forEach(el=>el.textContent="0");renderCart();showToast("Pedido limpo.");}
+function renderCart(){
+  const ids=Object.keys(cart).map(Number);
+  document.getElementById("cartBadge").textContent=ids.reduce((s,id)=>s+cart[id],0);
+  if(!ids.length){
+    document.getElementById("cartItems").innerHTML='<div class="empty">Seu pedido está vazio.<br>Use os botões <strong>−</strong> e <strong>+</strong> nos itens.</div>';
+  } else {
+    document.getElementById("cartItems").innerHTML=ids.map(id=>{
+      const p=products[id],qty=cart[id];
+      return `<div class="cart-item"><div class="cart-icon">${p.icon}</div><div><div class="cart-name">${p.name}</div><div class="cart-desc">${p.desc}</div><div class="cart-price">${formatMoney(p.price*qty)}</div></div><div class="cart-step"><button type="button" onclick="decreaseItem(${id})">−</button><strong>${qty}</strong><button type="button" onclick="increaseItem(${id})">+</button><button type="button" class="remove" onclick="removeItem(${id})">🗑</button></div></div>`;
+    }).join("");
+  }
+  const total=ids.reduce((s,id)=>s+products[id].price*cart[id],0);
+  document.getElementById("cartTotal").textContent=formatMoney(total);
+}
+
+async function finishOrder(){
+  const customer=document.getElementById("customerName").value.trim();
+  const ids=Object.keys(cart).map(Number);
+  if(!customer){showToast("Digite o nome do cliente.");return;}
+  if(!ids.length){showToast("Selecione pelo menos um item.");return;}
+  try{
+    const r=await fetch("/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+      customer_name:customer,note:document.getElementById("orderNote").value.trim(),
+      items:ids.map(id=>({menu_item_id:id,quantity:cart[id]}))
+    })});
+    const data=await r.json();
+    if(!r.ok){showToast(data.error||"Erro ao enviar pedido.");return;}
+    clearCart();document.getElementById("orderNote").value="";
+    showToast("Pedido #"+data.order_number+" realizado!");
+  }catch(e){showToast("Falha de conexão com o servidor.");}
+}
+
+async function loginAdmin(){
+  const user=document.getElementById("adminUser").value.trim(), pass=document.getElementById("adminPassword").value;
+  try{
+    const r=await fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({user,password:pass})});
+    if(!r.ok){document.getElementById("loginError").textContent="Usuário ou senha inválidos.";return;}
+    adminAuth={user,password:pass};document.getElementById("loginError").textContent="";
+    closeModal("loginModal");await renderAdmin();openModal("adminModal");
+  }catch(e){document.getElementById("loginError").textContent="Falha ao conectar com o servidor.";}
+}
+function adminHeaders(){return {"X-Admin-User":adminAuth?.user||"","X-Admin-Password":adminAuth?.password||""};}
+function statusOptions(selected){return ["Novo","Em preparo","Pronto","Concluído"].map(s=>`<option value="${s}" ${selected===s?"selected":""}>${s}</option>`).join("");}
+
+async function renderAdmin(){
+  if(!adminAuth)return;
+  const search=document.getElementById("searchOrder").value.trim();
+  const r=await fetch("/api/admin/orders?search="+encodeURIComponent(search),{headers:adminHeaders()});
+  if(!r.ok){showToast("Falha ao carregar pedidos.");return;}
+  const data=await r.json();
+  document.getElementById("statOrders").textContent=data.stats.orders;
+  document.getElementById("statNew").textContent=data.stats.new;
+  document.getElementById("statPreparing").textContent=data.stats.preparing;
+  document.getElementById("statRevenue").textContent=formatMoney(data.stats.revenue);
+  document.getElementById("adminRows").innerHTML=data.orders.map(o=>`<tr><td><strong>#${o.order_number}</strong></td><td><strong>${o.customer_name}</strong>${o.note?`<div style="margin-top:4px;color:#826d61">Obs.: ${o.note}</div>`:""}</td><td>${o.items.map(i=>`${i.quantity}x ${i.name}`).join("<br>")}</td><td><strong>${formatMoney(o.total)}</strong></td><td>${new Date(o.created_at+"Z").toLocaleString("pt-BR")}</td><td><select class="status-select" onchange="updateStatus(${o.id},this.value)">${statusOptions(o.status)}</select></td><td><button type="button" class="delete-order" onclick="deleteOrder(${o.id})">Excluir</button></td></tr>`).join("");
+  document.getElementById("adminEmpty").style.display=data.orders.length?"none":"block";
+}
+async function updateStatus(id,status){
+  const r=await fetch("/api/admin/orders/"+id,{method:"PATCH",headers:{...adminHeaders(),"Content-Type":"application/json"},body:JSON.stringify({status})});
+  if(r.ok){showToast("Status atualizado.");renderAdmin();}else showToast("Erro ao atualizar status.");
+}
+async function deleteOrder(id){
+  if(!confirm("Excluir este pedido?"))return;
+  const r=await fetch("/api/admin/orders/"+id,{method:"DELETE",headers:adminHeaders()});
+  if(r.ok){showToast("Pedido excluído.");renderAdmin();}else showToast("Erro ao excluir pedido.");
+}
+
+document.getElementById("openAdmin").addEventListener("click",()=>openModal("loginModal"));
+document.getElementById("doLogin").addEventListener("click",loginAdmin);
+document.getElementById("adminPassword").addEventListener("keydown",e=>{if(e.key==="Enter")loginAdmin();});
+document.getElementById("finishOrder").addEventListener("click",finishOrder);
+document.getElementById("clearCartBtn").addEventListener("click",clearCart);
+document.getElementById("clearAllOrdersBtn").textContent="Atualizar";
+document.getElementById("clearAllOrdersBtn").addEventListener("click",renderAdmin);
+document.getElementById("searchOrder").addEventListener("input",()=>{if(adminAuth)renderAdmin();});
+document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)closeModal(m.id);}));
+renderCart();
+</script>
+</body>
+</html>
