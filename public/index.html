@@ -217,6 +217,31 @@ footer{margin-top:24px;background:#261107;color:#fff}
   box-shadow:0 12px 28px rgba(0,0,0,.25);
 }
 .toast.show{opacity:1;transform:translate(-50%,0)}
+/* PAINEL PÚBLICO DE PEDIDOS */
+.public-orders{margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:18px}
+.public-orders-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;margin-bottom:14px}
+.public-orders-head small{display:block;color:var(--brand2);font-size:11px;font-weight:1000;letter-spacing:.8px}
+.public-orders-head h2{margin:4px 0 0;font-size:25px}
+.public-orders-meta{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;font-weight:800}
+.live-dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(20,164,77,.12)}
+.public-orders-note{margin:0 0 14px;color:var(--muted);font-size:12px;line-height:1.5}
+.public-orders-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.public-order-card{border:1px solid var(--line);border-radius:16px;padding:13px;background:#fff;min-width:0;transition:.2s ease}
+.public-order-card.highlight{border-color:#e5aa35;background:#fff9e9;box-shadow:0 0 0 3px rgba(255,195,75,.16)}
+.public-order-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.public-order-number{font-size:16px;font-weight:1000;color:var(--brand)}
+.public-order-time{font-size:11px;color:var(--muted);font-weight:800}
+.public-order-name{margin:10px 0 8px;font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.status-pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:7px 9px;font-size:11px;font-weight:1000}
+.status-novo{background:#fff3c7;color:#7a5600}
+.status-preparo{background:#ffe5ca;color:#9a4c0d}
+.status-pronto{background:#dff6e7;color:#13743d}
+.status-concluido{background:#eeeae7;color:#6f655f}
+.public-orders-empty{grid-column:1/-1;text-align:center;padding:28px 12px;color:var(--muted);background:#faf7f4;border-radius:14px}
+@media(max-width:1100px){.public-orders-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.public-orders{padding:13px}.public-orders-head{align-items:flex-start;flex-direction:column}.public-orders-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){.public-orders-grid{grid-template-columns:1fr}.public-order-card{padding:12px}}
+
 @media (max-width:1180px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:960px){
   .nav{display:none}.hero-inner{grid-template-columns:1fr;min-height:auto}
@@ -677,6 +702,20 @@ footer{margin-top:24px;background:#261107;color:#fff}
     </aside>
   </div>
 
+  <section class="public-orders" id="acompanhar-pedidos">
+    <div class="public-orders-head">
+      <div>
+        <small>ACOMPANHAMENTO EM TEMPO REAL</small>
+        <h2>📢 Acompanhe os pedidos</h2>
+      </div>
+      <div class="public-orders-meta"><span class="live-dot"></span><span id="publicOrdersUpdated">Atualizando...</span></div>
+    </div>
+    <p class="public-orders-note">Veja a fila do dia e o andamento de cada pedido. Por privacidade, mostramos apenas o número do pedido e o primeiro nome do cliente.</p>
+    <div id="publicOrdersGrid" class="public-orders-grid">
+      <div class="public-orders-empty">Carregando pedidos...</div>
+    </div>
+  </section>
+
   <section id="vantagens" class="benefits">
     <article><div class="icon">⚡</div><div><strong>Pedido rápido</strong><small>Cliente escolhe e finaliza em segundos.</small></div></article>
     <article><div class="icon">📋</div><div><strong>Cardápio organizado</strong><small>Itens separados por categorias.</small></div></article>
@@ -757,6 +796,7 @@ document.querySelectorAll(".product-card").forEach(card => {
 
 let cart = {};
 let adminAuth = null;
+let highlightedPublicOrder = null;
 
 function formatMoney(v){ return Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"}); }
 function showToast(message){
@@ -796,6 +836,41 @@ function renderCart(){
   document.getElementById("cartTotal").textContent=formatMoney(total);
 }
 
+
+function publicStatusClass(status){
+  if(status==="Novo") return "status-novo";
+  if(status==="Em preparo") return "status-preparo";
+  if(status==="Pronto") return "status-pronto";
+  return "status-concluido";
+}
+function publicStatusIcon(status){
+  if(status==="Novo") return "🟡";
+  if(status==="Em preparo") return "🟠";
+  if(status==="Pronto") return "🟢";
+  return "✅";
+}
+async function loadPublicOrders(){
+  try{
+    const r=await fetch("/api/public/orders",{cache:"no-store"});
+    if(!r.ok) throw new Error("Falha");
+    const data=await r.json();
+    const grid=document.getElementById("publicOrdersGrid");
+    grid.innerHTML=data.orders.length?data.orders.map(o=>`
+      <article class="public-order-card ${highlightedPublicOrder===o.order_number?"highlight":""}">
+        <div class="public-order-top">
+          <div class="public-order-number">#${o.order_number}</div>
+          <div class="public-order-time">${new Date(o.created_at+"Z").toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</div>
+        </div>
+        <div class="public-order-name">${o.customer_name}</div>
+        <span class="status-pill ${publicStatusClass(o.status)}">${publicStatusIcon(o.status)} ${o.status}</span>
+      </article>`).join(""):'<div class="public-orders-empty">Nenhum pedido ativo no momento.</div>';
+    document.getElementById("publicOrdersUpdated").textContent="Atualizado às "+new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+  }catch(e){
+    document.getElementById("publicOrdersGrid").innerHTML='<div class="public-orders-empty">Não foi possível atualizar a fila agora.</div>';
+    document.getElementById("publicOrdersUpdated").textContent="Tentando reconectar...";
+  }
+}
+
 async function finishOrder(){
   const customer=document.getElementById("customerName").value.trim();
   const ids=Object.keys(cart).map(Number);
@@ -808,7 +883,10 @@ async function finishOrder(){
     })});
     const data=await r.json();
     if(!r.ok){showToast(data.error||"Erro ao enviar pedido.");return;}
+    highlightedPublicOrder=String(data.order_number);
     clearCart();document.getElementById("orderNote").value="";
+    await loadPublicOrders();
+    document.getElementById("acompanhar-pedidos").scrollIntoView({behavior:"smooth",block:"start"});
     showToast("Pedido #"+data.order_number+" realizado!");
   }catch(e){showToast("Falha de conexão com o servidor.");}
 }
@@ -858,6 +936,8 @@ document.getElementById("clearAllOrdersBtn").addEventListener("click",renderAdmi
 document.getElementById("searchOrder").addEventListener("input",()=>{if(adminAuth)renderAdmin();});
 document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)closeModal(m.id);}));
 renderCart();
+loadPublicOrders();
+setInterval(loadPublicOrders,5000);
 </script>
 </body>
 </html>

@@ -18,3 +18,14 @@ Senha: `admin123`
 7. Rode `npm run deploy`
 
 A V8 salva os pedidos no D1. Assim, pedidos feitos por clientes em outros celulares aparecem no painel administrativo.
+
+
+## Novo na atualização: painel público de pedidos
+- Mostra os pedidos ativos do dia em ordem de chegada.
+- Exibe apenas número do pedido, primeiro nome, horário e status.
+- Atualiza automaticamente a cada 5 segundos.
+- Pedidos concluídos permanecem visíveis por aproximadamente 10 minutos e depois saem da fila pública.
+- Quando um cliente finaliza um pedido, o número recém-criado fica destacado no painel público.
+- O painel administrativo continua com os dados completos e controle de status.
+
+Não é necessário alterar o schema do D1 para esta atualização se você já executou o `schema.sql` da V8.

@@ -32,6 +32,26 @@ async function createOrder(request,env){
   return json({ok:true,order_id:orderId,order_number:number,total},201);
 }
 
+
+async function publicOrders(env){
+  const {results}=await env.DB.prepare(`
+    SELECT order_number, customer_name, status, created_at
+    FROM orders
+    WHERE date(created_at)=date('now')
+      AND (status != 'Concluído' OR datetime(updated_at) >= datetime('now','-10 minutes'))
+    ORDER BY id ASC
+    LIMIT 120
+  `).all();
+
+  const orders=results.map(row=>({
+    order_number:row.order_number,
+    customer_name:String(row.customer_name||'Cliente').trim().split(/\s+/)[0].slice(0,30),
+    status:row.status,
+    created_at:row.created_at
+  }));
+  return json({orders});
+}
+
 async function adminOrders(request,env){
   if(!isAdmin(request,env)) return json({error:"Não autorizado."},401);
   const url=new URL(request.url),search=(url.searchParams.get("search")||"").trim();
@@ -58,6 +78,7 @@ export default{
     const url=new URL(request.url),path=url.pathname;
 
     if(path==="/api/orders" && request.method==="POST") return createOrder(request,env);
+    if(path==="/api/public/orders" && request.method==="GET") return publicOrders(env);
 
     if(path==="/api/admin/login" && request.method==="POST"){
       const b=await request.json().catch(()=>({}));

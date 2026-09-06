@@ -9,7 +9,7 @@ binding = "ASSETS"
 [[d1_databases]]
 binding = "DB"
 database_name = "cafe-da-manha-db"
-database_id = "e8ca97c3-edc2-457b-8b77-6eb1a6801617"
+database_id = "COLE_AQUI_O_DATABASE_ID_DO_D1"
 
 [vars]
 ADMIN_USER = "admin"
