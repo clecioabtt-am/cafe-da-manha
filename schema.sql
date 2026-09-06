@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS orders(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   order_number TEXT NOT NULL UNIQUE,
   customer_name TEXT NOT NULL,
+  table_number TEXT,
   note TEXT,
   total REAL NOT NULL DEFAULT 0,
   status TEXT NOT NULL DEFAULT 'Novo' CHECK(status IN('Novo','Em preparo','Pronto','Concluído')),
@@ -36,7 +37,14 @@ CREATE TABLE IF NOT EXISTS order_items(
 
 CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
+CREATE INDEX IF NOT EXISTS idx_orders_table ON orders(table_number);
 CREATE INDEX IF NOT EXISTS idx_items_order ON order_items(order_id);
+
+CREATE TABLE IF NOT EXISTS site_settings(
+  key TEXT PRIMARY KEY,
+  value TEXT,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 
 INSERT OR IGNORE INTO menu_items(id,name,category,description,price,icon,active,sort_order) VALUES
 (1,'X-Caboquinho','Lanches','Pão, queijo, tucumã e banana',12.00,'🥪',1,10),

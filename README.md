@@ -29,3 +29,7 @@ A V8 salva os pedidos no D1. Assim, pedidos feitos por clientes em outros celula
 - O painel administrativo continua com os dados completos e controle de status.
 
 Não é necessário alterar o schema do D1 para esta atualização se você já executou o `schema.sql` da V8.
+
+
+## V9 — atualização do banco existente
+Antes do primeiro deploy desta versão em um banco já criado, execute **uma única vez** `migration_v9.sql` no console D1 ou rode `npm run db:migrate:v9`. A migração adiciona o número da mesa e a tabela de configurações usada para a logo personalizada.

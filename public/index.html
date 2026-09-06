@@ -242,6 +242,46 @@ footer{margin-top:24px;background:#261107;color:#fff}
 @media(max-width:760px){.public-orders{padding:13px}.public-orders-head{align-items:flex-start;flex-direction:column}.public-orders-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.public-orders-grid{grid-template-columns:1fr}.public-order-card{padding:12px}}
 
+
+/* V9 — mesa opcional, identidade visual e painel administrativo aprimorado */
+.brand-logo-img,.footer-logo-img{display:none;object-fit:contain;background:#fff;border-radius:12px}
+.brand-logo-img{width:50px;height:50px;padding:4px}.footer-logo-img{width:44px;height:44px;padding:4px}
+.brand.has-logo .brand-icon{display:none}.brand.has-logo .brand-logo-img{display:block}
+.footer-brand{display:flex;align-items:center;gap:10px}.footer-brand.has-logo .footer-logo-img{display:block}.footer-brand.has-logo .footer-fallback{display:none}
+.order-extra{display:grid;grid-template-columns:1fr;gap:8px;margin-top:12px}
+.table-field{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:7px 10px;background:#fff}
+.table-field span{font-weight:900;font-size:13px;white-space:nowrap}.table-field input{width:100%;border:0;outline:0;padding:8px 0;min-width:0}
+.admin-card{width:min(1280px,100%);padding:0;overflow:hidden;background:#f8f5f2}
+.admin-shell-head{padding:22px 24px;background:linear-gradient(120deg,#321509,#71371c);color:#fff;position:relative}
+.admin-shell-head small{color:#ffcb69}.admin-shell-head h2{margin:5px 0 5px;font-size:30px}.admin-shell-head p{margin:0;color:#ecdcd2;font-size:13px}
+.admin-content{padding:20px 22px 24px}
+.admin-card .close-btn{background:rgba(255,255,255,.13);color:#fff}
+.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.admin-tab{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 14px;font-weight:900;color:var(--brand)}
+.admin-tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.admin-section{display:none}.admin-section.active{display:block}
+.stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stats article{background:#fff;border:1px solid var(--line);box-shadow:0 7px 18px rgba(63,30,15,.05)}
+.stats article:nth-child(4) strong{color:var(--green)}
+.admin-toolbar-card,.report-card,.branding-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 8px 20px rgba(65,30,14,.05)}
+.admin-toolbar-card{margin-bottom:12px}.toolbar{margin:0;align-items:center}.toolbar input{flex:1;min-width:220px}
+.admin-action-btn{border:0!important;background:var(--brand)!important;color:#fff!important;border-radius:11px!important;padding:11px 14px!important;font-weight:900!important}
+.table-wrap{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:auto}
+.admin-table th{position:sticky;top:0;z-index:1;background:#f4ece6;color:#5b3928;font-size:11px;text-transform:uppercase;letter-spacing:.35px}
+.admin-table tr:hover td{background:#fffcf9}.admin-table td{font-size:12px}
+.report-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
+.report-option{border:1px solid var(--line);border-radius:15px;padding:15px;background:#fffaf6}
+.report-option strong{display:block;font-size:16px}.report-option p{margin:6px 0 12px;color:var(--muted);font-size:12px;line-height:1.45}
+.report-option button{width:100%;border:0;border-radius:11px;padding:11px;background:var(--brand);color:#fff;font-weight:900}
+.branding-grid{display:grid;grid-template-columns:190px minmax(0,1fr);gap:18px;align-items:start;margin-top:12px}
+.logo-preview{height:150px;border:1px dashed #cbb4a5;border-radius:16px;background:#fffaf6;display:grid;place-items:center;overflow:hidden;padding:12px}
+.logo-preview img{max-width:100%;max-height:100%;object-fit:contain;display:none}.logo-preview .placeholder{text-align:center;color:var(--muted);font-weight:800;font-size:12px}
+.branding-actions input[type=file]{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+.branding-actions p{color:var(--muted);font-size:12px;line-height:1.45}.branding-buttons{display:flex;gap:8px;flex-wrap:wrap}
+.branding-buttons button{border:0;border-radius:11px;padding:11px 14px;font-weight:900}.save-logo{background:var(--green);color:#fff}.remove-logo{background:#fff0ee;color:#a92d21}
+.admin-kicker{display:flex;align-items:center;gap:8px}.admin-kicker:before{content:'●';color:#58d68d;font-size:9px}
+@media(max-width:760px){.admin-content{padding:14px}.admin-shell-head{padding:18px}.admin-shell-head h2{font-size:24px}.stats{grid-template-columns:repeat(2,1fr)}.report-grid{grid-template-columns:1fr}.branding-grid{grid-template-columns:1fr}.logo-preview{height:120px}.admin-tabs{overflow:auto;flex-wrap:nowrap}.admin-tab{white-space:nowrap}.toolbar input{min-width:0}}
+
 @media (max-width:1180px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:960px){
   .nav{display:none}.hero-inner{grid-template-columns:1fr;min-height:auto}
@@ -265,8 +305,9 @@ footer{margin-top:24px;background:#261107;color:#fff}
 <body>
 <header class="topbar">
   <div class="topbar-inner">
-    <div class="brand">
+    <div class="brand" id="siteBrand">
       <div class="brand-icon">☕</div>
+      <img id="headerLogo" class="brand-logo-img" alt="Logo da empresa">
       <div>
         <strong>SUA LOGO AQUI</strong>
         <small>Sabor que começa o seu dia!</small>
@@ -305,6 +346,7 @@ footer{margin-top:24px;background:#261107;color:#fff}
         <label class="name-field">👤 <input id="customerName" type="text" placeholder="Digite seu nome aqui..." maxlength="80"></label>
         <div class="care-box">🤎 Seu pedido será preparado com muito carinho!</div>
       </div>
+      <div class="order-extra"><label class="table-field"><span>🪑 Mesa <small style="font-weight:600;color:var(--muted)">(opcional)</small></span><input id="tableNumber" type="text" inputmode="numeric" maxlength="12" placeholder="Ex.: 05"></label></div>
 
       <div class="categories">
         <button class="category-btn active" type="button" onclick="setCategory('Todos', this)"><span>🍽️</span>Todos</button>
@@ -710,7 +752,7 @@ footer{margin-top:24px;background:#261107;color:#fff}
       </div>
       <div class="public-orders-meta"><span class="live-dot"></span><span id="publicOrdersUpdated">Atualizando...</span></div>
     </div>
-    <p class="public-orders-note">Veja a fila do dia e o andamento de cada pedido. Por privacidade, mostramos apenas o número do pedido e o primeiro nome do cliente.</p>
+    <p class="public-orders-note">Veja a fila do dia e o andamento de cada pedido. Por privacidade, mostramos apenas o número do pedido, o primeiro nome do cliente e a mesa quando informada.</p>
     <div id="publicOrdersGrid" class="public-orders-grid">
       <div class="public-orders-empty">Carregando pedidos...</div>
     </div>
@@ -726,7 +768,7 @@ footer{margin-top:24px;background:#261107;color:#fff}
 
 <footer>
   <div class="footer-inner">
-    <strong>☕ SUA LOGO AQUI</strong>
+    <div class="footer-brand" id="footerBrand"><img id="footerLogo" class="footer-logo-img" alt="Logo da empresa"><strong class="footer-fallback">☕ SUA LOGO AQUI</strong></div>
     <span>Modelo profissional para empreendedores de café da manhã.</span>
   </div>
 </footer>
@@ -745,34 +787,64 @@ footer{margin-top:24px;background:#261107;color:#fff}
 
 <div id="adminModal" class="modal">
   <div class="modal-card admin-card">
-    <div class="admin-top">
-      <div><small>PAINEL ADMINISTRATIVO</small><h2>Gestão de Pedidos</h2></div>
+    <div class="admin-shell-head">
+      <div class="admin-kicker"><small>PAINEL ADMINISTRATIVO</small></div>
+      <h2>Central de Gestão</h2>
+      <p>Pedidos, relatórios e identidade visual do seu negócio em um só lugar.</p>
       <button class="close-btn" type="button" onclick="closeModal('adminModal')">×</button>
     </div>
+    <div class="admin-content">
+      <div class="admin-tabs" role="tablist">
+        <button class="admin-tab active" type="button" data-admin-tab="orders">📋 Pedidos</button>
+        <button class="admin-tab" type="button" data-admin-tab="reports">📄 Relatórios</button>
+        <button class="admin-tab" type="button" data-admin-tab="branding">🖼️ Logo do site</button>
+      </div>
 
-    <div class="stats">
-      <article><span>Pedidos</span><strong id="statOrders">0</strong></article>
-      <article><span>Novos</span><strong id="statNew">0</strong></article>
-      <article><span>Em preparo</span><strong id="statPreparing">0</strong></article>
-      <article><span>Faturamento</span><strong id="statRevenue">R$ 0,00</strong></article>
-    </div>
+      <section class="admin-section active" data-admin-section="orders">
+        <div class="stats">
+          <article><span>Pedidos</span><strong id="statOrders">0</strong></article>
+          <article><span>Novos</span><strong id="statNew">0</strong></article>
+          <article><span>Em preparo</span><strong id="statPreparing">0</strong></article>
+          <article><span>Faturamento</span><strong id="statRevenue">R$ 0,00</strong></article>
+        </div>
+        <div class="admin-toolbar-card">
+          <div class="toolbar"><input id="searchOrder" type="search" placeholder="🔎 Buscar cliente, pedido ou mesa..."><button id="clearAllOrdersBtn" class="admin-action-btn" type="button">↻ Atualizar</button></div>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>#</th><th>Cliente / Mesa</th><th>Itens</th><th>Total</th><th>Horário</th><th>Status</th><th>Ações</th></tr></thead>
+            <tbody id="adminRows"></tbody>
+          </table>
+        </div>
+        <div id="adminEmpty" class="admin-empty">Nenhum pedido registrado ainda.</div>
+      </section>
 
-    <div class="toolbar">
-      <input id="searchOrder" type="search" placeholder="Buscar cliente ou número...">
-      <button id="clearAllOrdersBtn" type="button">Limpar todos</button>
-    </div>
+      <section class="admin-section" data-admin-section="reports">
+        <div class="report-card">
+          <div class="section-head" style="margin:0"><div><small>EXPORTAÇÃO</small><h2>Relatórios em PDF</h2></div></div>
+          <p style="color:var(--muted);font-size:13px">Gere um relatório com pedidos, itens, mesa, status, valores e total faturado no período. O navegador abrirá a tela de impressão; selecione <strong>Salvar como PDF</strong>.</p>
+          <div class="report-grid">
+            <div class="report-option"><strong>☀️ Relatório diário</strong><p>Todos os pedidos realizados hoje.</p><button type="button" onclick="exportReport('daily')">Exportar PDF diário</button></div>
+            <div class="report-option"><strong>📅 Relatório semanal</strong><p>Pedidos dos últimos 7 dias, incluindo hoje.</p><button type="button" onclick="exportReport('weekly')">Exportar PDF semanal</button></div>
+            <div class="report-option"><strong>🗓️ Relatório mensal</strong><p>Pedidos do mês atual.</p><button type="button" onclick="exportReport('monthly')">Exportar PDF mensal</button></div>
+          </div>
+        </div>
+      </section>
 
-    <div class="table-wrap">
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>#</th><th>Cliente</th><th>Itens</th><th>Total</th><th>Horário</th><th>Status</th><th>Ações</th>
-          </tr>
-        </thead>
-        <tbody id="adminRows"></tbody>
-      </table>
+      <section class="admin-section" data-admin-section="branding">
+        <div class="branding-card">
+          <div class="section-head" style="margin:0"><div><small>IDENTIDADE VISUAL</small><h2>Logo do estabelecimento</h2></div></div>
+          <div class="branding-grid">
+            <div class="logo-preview"><img id="adminLogoPreview" alt="Prévia da logo"><div id="logoPlaceholder" class="placeholder">☕<br>Prévia da sua logo</div></div>
+            <div class="branding-actions">
+              <input id="logoFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+              <p>Escolha PNG, JPG, WEBP ou GIF. A imagem será aplicada automaticamente no topo e no rodapé do site. Limite recomendado: até 600 KB.</p>
+              <div class="branding-buttons"><button id="saveLogoBtn" class="save-logo" type="button">✓ Salvar nova logo</button><button id="removeLogoBtn" class="remove-logo" type="button">Remover logo</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
-    <div id="adminEmpty" class="admin-empty">Nenhum pedido registrado ainda.</div>
   </div>
 </div>
 
@@ -799,6 +871,19 @@ let adminAuth = null;
 let highlightedPublicOrder = null;
 
 function formatMoney(v){ return Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"}); }
+function escapeHtml(value){return String(value??"").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));}
+let currentLogoData="";
+function applySiteLogo(data){
+  currentLogoData=data||"";
+  const header=document.getElementById("headerLogo"), footer=document.getElementById("footerLogo"), preview=document.getElementById("adminLogoPreview"), placeholder=document.getElementById("logoPlaceholder");
+  [header,footer].forEach(img=>{if(img){img.src=currentLogoData||"";}});
+  document.getElementById("siteBrand")?.classList.toggle("has-logo",!!currentLogoData);
+  document.getElementById("footerBrand")?.classList.toggle("has-logo",!!currentLogoData);
+  if(preview){preview.src=currentLogoData||"";preview.style.display=currentLogoData?"block":"none";}
+  if(placeholder)placeholder.style.display=currentLogoData?"none":"block";
+}
+async function loadSiteSettings(){try{const r=await fetch("/api/settings",{cache:"no-store"});if(r.ok){const d=await r.json();applySiteLogo(d.logo_data||"");}}catch(e){}}
+
 function showToast(message){
   const toast=document.getElementById("toast");
   toast.textContent=message;toast.classList.add("show");
@@ -861,7 +946,7 @@ async function loadPublicOrders(){
           <div class="public-order-number">#${o.order_number}</div>
           <div class="public-order-time">${new Date(o.created_at+"Z").toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</div>
         </div>
-        <div class="public-order-name">${o.customer_name}</div>
+        <div class="public-order-name">${o.customer_name}${o.table_number?` · 🪑 Mesa ${escapeHtml(o.table_number)}`:""}</div>
         <span class="status-pill ${publicStatusClass(o.status)}">${publicStatusIcon(o.status)} ${o.status}</span>
       </article>`).join(""):'<div class="public-orders-empty">Nenhum pedido ativo no momento.</div>';
     document.getElementById("publicOrdersUpdated").textContent="Atualizado às "+new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
@@ -878,13 +963,13 @@ async function finishOrder(){
   if(!ids.length){showToast("Selecione pelo menos um item.");return;}
   try{
     const r=await fetch("/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
-      customer_name:customer,note:document.getElementById("orderNote").value.trim(),
+      customer_name:customer,table_number:document.getElementById("tableNumber").value.trim(),note:document.getElementById("orderNote").value.trim(),
       items:ids.map(id=>({menu_item_id:id,quantity:cart[id]}))
     })});
     const data=await r.json();
     if(!r.ok){showToast(data.error||"Erro ao enviar pedido.");return;}
     highlightedPublicOrder=String(data.order_number);
-    clearCart();document.getElementById("orderNote").value="";
+    clearCart();document.getElementById("orderNote").value="";document.getElementById("tableNumber").value="";
     await loadPublicOrders();
     document.getElementById("acompanhar-pedidos").scrollIntoView({behavior:"smooth",block:"start"});
     showToast("Pedido #"+data.order_number+" realizado!");
@@ -913,7 +998,7 @@ async function renderAdmin(){
   document.getElementById("statNew").textContent=data.stats.new;
   document.getElementById("statPreparing").textContent=data.stats.preparing;
   document.getElementById("statRevenue").textContent=formatMoney(data.stats.revenue);
-  document.getElementById("adminRows").innerHTML=data.orders.map(o=>`<tr><td><strong>#${o.order_number}</strong></td><td><strong>${o.customer_name}</strong>${o.note?`<div style="margin-top:4px;color:#826d61">Obs.: ${o.note}</div>`:""}</td><td>${o.items.map(i=>`${i.quantity}x ${i.name}`).join("<br>")}</td><td><strong>${formatMoney(o.total)}</strong></td><td>${new Date(o.created_at+"Z").toLocaleString("pt-BR")}</td><td><select class="status-select" onchange="updateStatus(${o.id},this.value)">${statusOptions(o.status)}</select></td><td><button type="button" class="delete-order" onclick="deleteOrder(${o.id})">Excluir</button></td></tr>`).join("");
+  document.getElementById("adminRows").innerHTML=data.orders.map(o=>`<tr><td><strong>#${escapeHtml(o.order_number)}</strong></td><td><strong>${escapeHtml(o.customer_name)}</strong>${o.table_number?`<div style="margin-top:4px;font-weight:900;color:#6b3218">🪑 Mesa ${escapeHtml(o.table_number)}</div>`:""}${o.note?`<div style="margin-top:4px;color:#826d61">Obs.: ${escapeHtml(o.note)}</div>`:""}</td><td>${o.items.map(i=>`${Number(i.quantity)}x ${escapeHtml(i.name)}`).join("<br>")}</td><td><strong>${formatMoney(o.total)}</strong></td><td>${new Date(o.created_at+"Z").toLocaleString("pt-BR")}</td><td><select class="status-select" onchange="updateStatus(${Number(o.id)},this.value)">${statusOptions(o.status)}</select></td><td><button type="button" class="delete-order" onclick="deleteOrder(${Number(o.id)})">Excluir</button></td></tr>`).join("");
   document.getElementById("adminEmpty").style.display=data.orders.length?"none":"block";
 }
 async function updateStatus(id,status){
@@ -926,6 +1011,46 @@ async function deleteOrder(id){
   if(r.ok){showToast("Pedido excluído.");renderAdmin();}else showToast("Erro ao excluir pedido.");
 }
 
+
+function switchAdminTab(name){
+  document.querySelectorAll(".admin-tab").forEach(b=>b.classList.toggle("active",b.dataset.adminTab===name));
+  document.querySelectorAll(".admin-section").forEach(s=>s.classList.toggle("active",s.dataset.adminSection===name));
+  if(name==="branding") applySiteLogo(currentLogoData);
+}
+document.querySelectorAll(".admin-tab").forEach(b=>b.addEventListener("click",()=>switchAdminTab(b.dataset.adminTab)));
+
+document.getElementById("logoFile").addEventListener("change",e=>{
+  const file=e.target.files?.[0]; if(!file)return;
+  if(file.size>900000){showToast("A imagem é muito grande. Use uma logo de até 900 KB.");e.target.value="";return;}
+  const reader=new FileReader();reader.onload=()=>applySiteLogo(String(reader.result||""));reader.readAsDataURL(file);
+});
+async function saveLogo(){
+  if(!adminAuth)return;
+  if(!currentLogoData){showToast("Escolha uma imagem primeiro.");return;}
+  const r=await fetch("/api/admin/settings/logo",{method:"PUT",headers:{...adminHeaders(),"Content-Type":"application/json"},body:JSON.stringify({logo_data:currentLogoData})});
+  if(r.ok)showToast("Logo atualizada no site.");else{const d=await r.json().catch(()=>({}));showToast(d.error||"Erro ao salvar logo.");}
+}
+async function removeLogo(){
+  if(!adminAuth||!confirm("Remover a logo personalizada do site?"))return;
+  const r=await fetch("/api/admin/settings/logo",{method:"DELETE",headers:adminHeaders()});
+  if(r.ok){applySiteLogo("");document.getElementById("logoFile").value="";showToast("Logo removida.");}else showToast("Erro ao remover logo.");
+}
+document.getElementById("saveLogoBtn").addEventListener("click",saveLogo);
+document.getElementById("removeLogoBtn").addEventListener("click",removeLogo);
+
+async function exportReport(period){
+  if(!adminAuth)return;
+  showToast("Preparando relatório...");
+  const r=await fetch("/api/admin/report?period="+encodeURIComponent(period),{headers:adminHeaders()});
+  if(!r.ok){showToast("Não foi possível gerar o relatório.");return;}
+  const d=await r.json();
+  const labels={daily:"Relatório diário",weekly:"Relatório semanal",monthly:"Relatório mensal"};
+  const rows=d.orders.map(o=>`<tr><td>#${escapeHtml(o.order_number)}</td><td>${escapeHtml(o.customer_name)}</td><td>${o.table_number?escapeHtml(o.table_number):"—"}</td><td>${o.items.map(i=>`${Number(i.quantity)}x ${escapeHtml(i.name)}`).join("<br>")}</td><td>${escapeHtml(o.status)}</td><td>${new Date(o.created_at+"Z").toLocaleString("pt-BR")}</td><td style="text-align:right">${formatMoney(o.total)}</td></tr>`).join("");
+  const logo=currentLogoData?`<img src="${currentLogoData}" style="max-height:55px;max-width:170px;object-fit:contain">`:`<strong style="font-size:20px">☕ SUA LOGO AQUI</strong>`;
+  const doc=`<!doctype html><html><head><meta charset="utf-8"><title>${labels[period]}</title><style>@page{size:A4 landscape;margin:12mm}body{font-family:Arial,sans-serif;color:#24150e;font-size:11px}header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #6b3218;padding-bottom:10px;margin-bottom:12px}h1{margin:0;color:#6b3218;font-size:22px}p{margin:4px 0;color:#6f5d52}.summary{display:flex;gap:12px;margin:12px 0}.summary div{border:1px solid #ddd;border-radius:8px;padding:8px 12px}.summary b{display:block;font-size:16px;color:#6b3218}table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid #ddd;padding:7px 6px;text-align:left;vertical-align:top}th{background:#f1e7df;color:#5a3523}tr{break-inside:avoid}footer{margin-top:12px;text-align:right;color:#777;font-size:9px}</style></head><body><header><div>${logo}</div><div style="text-align:right"><h1>${labels[period]}</h1><p>${escapeHtml(d.period_label)}</p></div></header><div class="summary"><div>Pedidos<b>${d.summary.orders}</b></div><div>Faturamento<b>${formatMoney(d.summary.revenue)}</b></div><div>Gerado em<b style="font-size:12px">${new Date().toLocaleString("pt-BR")}</b></div></div><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Mesa</th><th>Itens</th><th>Status</th><th>Data/Hora</th><th style="text-align:right">Total</th></tr></thead><tbody>${rows||'<tr><td colspan="7" style="text-align:center;padding:30px">Nenhum pedido no período.</td></tr>'}</tbody></table><footer>Relatório gerado pelo sistema de pedidos Café da Manhã.</footer><script>window.onload=()=>setTimeout(()=>window.print(),250)<\/script></body></html>`;
+  const w=window.open("","_blank");if(!w){showToast("Permita pop-ups para exportar o PDF.");return;}w.document.open();w.document.write(doc);w.document.close();
+}
+
 document.getElementById("openAdmin").addEventListener("click",()=>openModal("loginModal"));
 document.getElementById("doLogin").addEventListener("click",loginAdmin);
 document.getElementById("adminPassword").addEventListener("keydown",e=>{if(e.key==="Enter")loginAdmin();});
@@ -936,6 +1061,7 @@ document.getElementById("clearAllOrdersBtn").addEventListener("click",renderAdmi
 document.getElementById("searchOrder").addEventListener("input",()=>{if(adminAuth)renderAdmin();});
 document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)closeModal(m.id);}));
 renderCart();
+loadSiteSettings();
 loadPublicOrders();
 setInterval(loadPublicOrders,5000);
 </script>
