@@ -51,3 +51,8 @@ Em um banco D1 que já existe, execute uma única vez `npm run db:migrate:v10` a
 - Personalização das cores principais, fundo, textos, destaques e botões.
 - Edição do título e da frase ao lado da logo, incluindo suas cores.
 - Esta atualização não exige nova migração depois da V10.
+
+## Ajuste V11.1
+- Toda imagem de item fica centralizada horizontal e verticalmente dentro do quadro.
+- Toda imagem de categoria fica centralizada em uma área quadrada própria.
+- A proporção original é preservada e nenhuma imagem pode ultrapassar seu quadro.
