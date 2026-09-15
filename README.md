@@ -1,4 +1,4 @@
-# Café da Manhã V8
+# Café da Manhã V11
 
 ## Banco D1
 Use exatamente: `cafe-da-manha-db`
@@ -44,3 +44,10 @@ Antes do primeiro deploy desta versão em um banco já criado, execute **uma ún
 
 ## Atualização de banco da V10
 Em um banco D1 que já existe, execute uma única vez `npm run db:migrate:v10` antes do deploy. Em uma instalação nova, execute `schema.sql`.
+
+## Novo na V11
+- Imagens dos itens ficam proporcionalmente contidas dentro do quadro, sem invadir textos e botões.
+- Nova aba **Cores e textos** no painel administrativo.
+- Personalização das cores principais, fundo, textos, destaques e botões.
+- Edição do título e da frase ao lado da logo, incluindo suas cores.
+- Esta atualização não exige nova migração depois da V10.
