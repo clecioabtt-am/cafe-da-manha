@@ -1,6 +1,6 @@
 {
-  "name": "cafe-da-manha-v11-2",
-  "version": "11.2.0",
+  "name": "cafe-da-manha-v11-4",
+  "version": "11.4.0",
   "private": true,
   "scripts": {
     "dev": "wrangler dev",

@@ -62,3 +62,11 @@ Em um banco D1 que já existe, execute uma única vez `npm run db:migrate:v10` a
 - Alterações de status no painel são refletidas imediatamente na página principal aberta pelo administrador.
 - Outros dispositivos atualizam automaticamente a fila a cada 2 segundos.
 - As APIs de pedidos usam cabeçalhos sem cache para sempre retornar o status atual do D1.
+
+## Ajuste V11.3
+- A fila pública possui barra de rolagem vertical própria para visualizar todos os pedidos.
+- A rolagem funciona no computador e no celular sem aumentar excessivamente a página.
+
+## Ajuste V11.4
+- A página principal exibe exclusivamente pedidos com status **Novo**, **Em preparo** e **Pronto**.
+- Ao marcar um pedido como **Concluído**, ele sai imediatamente da fila pública, mas permanece no painel e nos relatórios.
