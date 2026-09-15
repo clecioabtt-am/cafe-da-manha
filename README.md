@@ -56,3 +56,9 @@ Em um banco D1 que já existe, execute uma única vez `npm run db:migrate:v10` a
 - Toda imagem de item fica centralizada horizontal e verticalmente dentro do quadro.
 - Toda imagem de categoria fica centralizada em uma área quadrada própria.
 - A proporção original é preservada e nenhuma imagem pode ultrapassar seu quadro.
+
+## Ajuste V11.2
+- Todos os pedidos ativos aparecem na página principal, sem filtro incorreto por data UTC.
+- Alterações de status no painel são refletidas imediatamente na página principal aberta pelo administrador.
+- Outros dispositivos atualizam automaticamente a fila a cada 2 segundos.
+- As APIs de pedidos usam cabeçalhos sem cache para sempre retornar o status atual do D1.

@@ -1058,12 +1058,12 @@ async function renderAdmin(){
 }
 async function updateStatus(id,status){
   const r=await fetch("/api/admin/orders/"+id,{method:"PATCH",headers:{...adminHeaders(),"Content-Type":"application/json"},body:JSON.stringify({status})});
-  if(r.ok){showToast("Status atualizado.");renderAdmin();}else showToast("Erro ao atualizar status.");
+  if(r.ok){showToast("Status atualizado.");await Promise.all([renderAdmin(),loadPublicOrders()]);}else showToast("Erro ao atualizar status.");
 }
 async function deleteOrder(id){
   if(!confirm("Excluir este pedido?"))return;
   const r=await fetch("/api/admin/orders/"+id,{method:"DELETE",headers:adminHeaders()});
-  if(r.ok){showToast("Pedido excluído.");renderAdmin();}else showToast("Erro ao excluir pedido.");
+  if(r.ok){showToast("Pedido excluído.");await Promise.all([renderAdmin(),loadPublicOrders()]);}else showToast("Erro ao excluir pedido.");
 }
 
 
@@ -1123,7 +1123,9 @@ renderCart();
 loadMenu();
 loadSiteSettings();
 loadPublicOrders();
-setInterval(loadPublicOrders,5000);
+setInterval(loadPublicOrders,2000);
+window.addEventListener("focus",loadPublicOrders);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)loadPublicOrders();});
 </script>
 </body>
 </html>
