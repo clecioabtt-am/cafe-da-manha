@@ -245,7 +245,7 @@ footer{margin-top:24px;background:#261107;color:#fff}
 
 /* V9 — mesa opcional, identidade visual e painel administrativo aprimorado */
 .brand-logo-img,.footer-logo-img{display:none;object-fit:contain;background:#fff;border-radius:12px}
-.brand-logo-img{width:50px;height:50px;padding:4px}.footer-logo-img{width:44px;height:44px;padding:4px}
+.brand-logo-img{width:118px;height:72px;padding:5px}.footer-logo-img{width:150px;height:86px;padding:6px}
 .brand.has-logo .brand-icon{display:none}.brand.has-logo .brand-logo-img{display:block}
 .footer-brand{display:flex;align-items:center;gap:10px}.footer-brand.has-logo .footer-logo-img{display:block}.footer-brand.has-logo .footer-fallback{display:none}
 .order-extra{display:grid;grid-template-columns:1fr;gap:8px;margin-top:12px}
@@ -280,6 +280,9 @@ footer{margin-top:24px;background:#261107;color:#fff}
 .branding-actions p{color:var(--muted);font-size:12px;line-height:1.45}.branding-buttons{display:flex;gap:8px;flex-wrap:wrap}
 .branding-buttons button{border:0;border-radius:11px;padding:11px 14px;font-weight:900}.save-logo{background:var(--green);color:#fff}.remove-logo{background:#fff0ee;color:#a92d21}
 .admin-kicker{display:flex;align-items:center;gap:8px}.admin-kicker:before{content:'●';color:#58d68d;font-size:9px}
+.product-visual img{width:100%;height:100%;object-fit:cover;border-radius:14px}.category-btn img{width:46px;height:46px;object-fit:cover;border-radius:12px;display:block;margin:0 auto 5px}.cart-icon img{width:48px;height:48px;object-fit:cover;border-radius:12px}
+.menu-admin-grid{display:grid;grid-template-columns:360px minmax(0,1fr);gap:16px}.editor-card,.manager-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}.editor-card h3,.manager-card h3{margin:0 0 14px}.editor-form{display:grid;gap:10px}.editor-form label{font-size:12px;font-weight:900;color:#654534}.editor-form input,.editor-form select,.editor-form textarea{width:100%;margin-top:5px;border:1px solid var(--line);border-radius:11px;padding:10px;background:#fff}.editor-form textarea{min-height:72px;resize:vertical}.form-two{display:grid;grid-template-columns:1fr 1fr;gap:9px}.editor-actions{display:flex;gap:8px}.editor-actions button,.mini-btn{border:0;border-radius:10px;padding:10px 12px;font-weight:900}.save-entry{background:var(--green);color:#fff}.cancel-entry{background:#eee4dc;color:var(--brand)}.manager-list{display:grid;gap:9px;max-height:470px;overflow:auto}.manager-row{display:grid;grid-template-columns:54px minmax(0,1fr) auto;align-items:center;gap:10px;border:1px solid var(--line);border-radius:13px;padding:9px}.manager-thumb{width:54px;height:54px;border-radius:11px;background:#fff4e9;display:grid;place-items:center;font-size:28px;overflow:hidden}.manager-thumb img{width:100%;height:100%;object-fit:cover}.manager-row small{display:block;color:var(--muted);margin-top:3px}.row-actions{display:flex;gap:6px}.edit-entry{background:#fff1d2;color:#794610}.delete-entry{background:#ffebe8;color:#a12f22}.image-note{font-size:11px!important;color:var(--muted)!important;font-weight:600!important}.empty-manager{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:850px){.menu-admin-grid{grid-template-columns:1fr}.brand-logo-img{width:92px;height:60px}.footer-logo-img{width:130px;height:75px}}
 @media(max-width:760px){.admin-content{padding:14px}.admin-shell-head{padding:18px}.admin-shell-head h2{font-size:24px}.stats{grid-template-columns:repeat(2,1fr)}.report-grid{grid-template-columns:1fr}.branding-grid{grid-template-columns:1fr}.logo-preview{height:120px}.admin-tabs{overflow:auto;flex-wrap:nowrap}.admin-tab{white-space:nowrap}.toolbar input{min-width:0}}
 
 @media (max-width:1180px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -348,7 +351,7 @@ footer{margin-top:24px;background:#261107;color:#fff}
       </div>
       <div class="order-extra"><label class="table-field"><span>🪑 Mesa <small style="font-weight:600;color:var(--muted)">(opcional)</small></span><input id="tableNumber" type="text" inputmode="numeric" maxlength="12" placeholder="Ex.: 05"></label></div>
 
-      <div class="categories">
+      <div class="categories" id="categoryButtons">
         <button class="category-btn active" type="button" onclick="setCategory('Todos', this)"><span>🍽️</span>Todos</button>
         <button class="category-btn" type="button" onclick="setCategory('Lanches', this)"><span>🥪</span>Lanches</button>
         <button class="category-btn" type="button" onclick="setCategory('Tapiocas', this)"><span>🌮</span>Tapiocas</button>
@@ -797,6 +800,8 @@ footer{margin-top:24px;background:#261107;color:#fff}
       <div class="admin-tabs" role="tablist">
         <button class="admin-tab active" type="button" data-admin-tab="orders">📋 Pedidos</button>
         <button class="admin-tab" type="button" data-admin-tab="reports">📄 Relatórios</button>
+        <button class="admin-tab" type="button" data-admin-tab="items">🍽️ Itens</button>
+        <button class="admin-tab" type="button" data-admin-tab="categories">🗂️ Categorias</button>
         <button class="admin-tab" type="button" data-admin-tab="branding">🖼️ Logo do site</button>
       </div>
 
@@ -817,6 +822,14 @@ footer{margin-top:24px;background:#261107;color:#fff}
           </table>
         </div>
         <div id="adminEmpty" class="admin-empty">Nenhum pedido registrado ainda.</div>
+      </section>
+
+      <section class="admin-section" data-admin-section="items">
+        <div class="menu-admin-grid"><div class="editor-card"><h3 id="itemEditorTitle">Novo item</h3><form id="itemForm" class="editor-form"><input id="itemId" type="hidden"><label>Nome do item<input id="itemName" required maxlength="120"></label><label>Categoria<select id="itemCategory" required></select></label><label>Descrição<textarea id="itemDescription" maxlength="240"></textarea></label><div class="form-two"><label>Valor (R$)<input id="itemPrice" type="number" min="0" step="0.01" required></label><label>Ícone/emoji<input id="itemIcon" maxlength="12" value="🍽️"></label></div><label>Imagem do item<input id="itemImage" type="file" accept="image/png,image/jpeg,image/webp,image/gif"><span class="image-note">PNG, JPG ou WEBP, até 900 KB.</span></label><div class="editor-actions"><button class="save-entry" type="submit">Salvar item</button><button class="cancel-entry" type="button" onclick="resetItemForm()">Limpar</button></div></form></div><div class="manager-card"><h3>Itens do cardápio</h3><div id="adminItemsList" class="manager-list"></div></div></div>
+      </section>
+
+      <section class="admin-section" data-admin-section="categories">
+        <div class="menu-admin-grid"><div class="editor-card"><h3 id="categoryEditorTitle">Nova categoria</h3><form id="categoryForm" class="editor-form"><input id="categoryId" type="hidden"><input id="categoryOldName" type="hidden"><label>Nome da categoria<input id="categoryName" required maxlength="120"></label><label>Ícone/emoji<input id="categoryIcon" maxlength="12" value="🍽️"></label><label>Imagem da categoria<input id="categoryImage" type="file" accept="image/png,image/jpeg,image/webp,image/gif"><span class="image-note">A imagem aparecerá no botão da categoria.</span></label><div class="editor-actions"><button class="save-entry" type="submit">Salvar categoria</button><button class="cancel-entry" type="button" onclick="resetCategoryForm()">Limpar</button></div></form></div><div class="manager-card"><h3>Categorias do cardápio</h3><div id="adminCategoriesList" class="manager-list"></div></div></div>
       </section>
 
       <section class="admin-section" data-admin-section="reports">
@@ -883,6 +896,29 @@ function applySiteLogo(data){
   if(placeholder)placeholder.style.display=currentLogoData?"none":"block";
 }
 async function loadSiteSettings(){try{const r=await fetch("/api/settings",{cache:"no-store"});if(r.ok){const d=await r.json();applySiteLogo(d.logo_data||"");}}catch(e){}}
+let menuData={items:[],categories:[]}, itemImageData="", categoryImageData="";
+function imageOrIcon(x,alt=""){return x.image_data?`<img src="${x.image_data}" alt="${escapeHtml(alt)}">`:escapeHtml(x.icon||"🍽️");}
+async function loadMenu(){
+  try{const r=await fetch("/api/menu",{cache:"no-store"});if(!r.ok)throw new Error();menuData=await r.json();Object.keys(products).forEach(k=>delete products[k]);menuData.items.forEach(x=>products[+x.id]={id:+x.id,name:x.name,category:x.category,price:+x.price,icon:x.icon||"🍽️",image_data:x.image_data||"",desc:x.description||""});
+    document.getElementById("categoryButtons").innerHTML=`<button class="category-btn active" type="button" onclick="setCategory('Todos',this)"><span>🍽️</span>Todos</button>`+menuData.categories.map(c=>`<button class="category-btn" type="button" onclick='setCategory(${JSON.stringify(c.name)},this)'>${c.image_data?`<img src="${c.image_data}" alt="">`:`<span>${escapeHtml(c.icon||"🍽️")}</span>`}${escapeHtml(c.name)}</button>`).join("");
+    document.getElementById("productGrid").innerHTML=menuData.items.map(x=>`<article class="product-card" data-category="${escapeHtml(x.category)}"><div class="product-visual">${imageOrIcon(x,x.name)}</div><div class="product-info"><h3>${escapeHtml(x.name)}</h3><p>${escapeHtml(x.description||"")}</p><div class="price">${formatMoney(x.price)}</div></div><div class="stepper"><button type="button" onclick="decreaseItem(${+x.id})">−</button><strong id="qty-${+x.id}">${cart[+x.id]||0}</strong><button type="button" onclick="increaseItem(${+x.id})">+</button></div></article>`).join("");setCategory("Todos",document.querySelector("#categoryButtons .category-btn"));renderCart();
+  }catch(e){showToast("Não foi possível carregar o cardápio atualizado.");}
+}
+function fileData(input){return new Promise((resolve,reject)=>{const f=input.files?.[0];if(!f)return resolve("");if(f.size>900000)return reject(new Error("Use uma imagem de até 900 KB."));const rd=new FileReader();rd.onload=()=>resolve(String(rd.result||""));rd.onerror=()=>reject(new Error("Não foi possível ler a imagem."));rd.readAsDataURL(f);});}
+async function loadAdminMenu(){if(!adminAuth)return;const r=await fetch("/api/admin/menu",{headers:adminHeaders()});if(!r.ok)return showToast("Falha ao carregar o cardápio.");menuData=await r.json();renderAdminMenu();}
+function renderAdminMenu(){
+  const activeCats=menuData.categories.filter(c=>+c.active===1);document.getElementById("itemCategory").innerHTML=activeCats.map(c=>`<option>${escapeHtml(c.name)}</option>`).join("");
+  document.getElementById("adminItemsList").innerHTML=menuData.items.filter(x=>+x.active===1).map(x=>`<div class="manager-row"><div class="manager-thumb">${imageOrIcon(x,x.name)}</div><div><strong>${escapeHtml(x.name)}</strong><small>${escapeHtml(x.category)} · ${formatMoney(x.price)}</small></div><div class="row-actions"><button class="mini-btn edit-entry" onclick="editItem(${+x.id})">Editar</button><button class="mini-btn delete-entry" onclick="deleteItem(${+x.id})">Remover</button></div></div>`).join("")||'<div class="empty-manager">Nenhum item ativo.</div>';
+  document.getElementById("adminCategoriesList").innerHTML=activeCats.map(x=>`<div class="manager-row"><div class="manager-thumb">${imageOrIcon(x,x.name)}</div><div><strong>${escapeHtml(x.name)}</strong><small>Categoria do cardápio</small></div><div class="row-actions"><button class="mini-btn edit-entry" onclick="editCategory(${+x.id})">Editar</button><button class="mini-btn delete-entry" onclick="deleteCategory(${+x.id})">Remover</button></div></div>`).join("")||'<div class="empty-manager">Nenhuma categoria ativa.</div>';
+}
+function resetItemForm(){document.getElementById("itemForm").reset();document.getElementById("itemId").value="";document.getElementById("itemIcon").value="🍽️";document.getElementById("itemEditorTitle").textContent="Novo item";itemImageData="";}
+function editItem(id){const x=menuData.items.find(i=>+i.id===+id);if(!x)return;document.getElementById("itemId").value=x.id;document.getElementById("itemName").value=x.name;document.getElementById("itemCategory").value=x.category;document.getElementById("itemDescription").value=x.description||"";document.getElementById("itemPrice").value=+x.price;document.getElementById("itemIcon").value=x.icon||"🍽️";itemImageData=x.image_data||"";document.getElementById("itemEditorTitle").textContent="Editar item";}
+async function saveItemForm(e){e.preventDefault();try{const chosen=await fileData(document.getElementById("itemImage"));if(chosen)itemImageData=chosen;const id=document.getElementById("itemId").value,b={name:document.getElementById("itemName").value,category:document.getElementById("itemCategory").value,description:document.getElementById("itemDescription").value,price:document.getElementById("itemPrice").value,icon:document.getElementById("itemIcon").value,image_data:itemImageData};const r=await fetch("/api/admin/items"+(id?"/"+id:""),{method:id?"PUT":"POST",headers:{...adminHeaders(),"Content-Type":"application/json"},body:JSON.stringify(b)}),d=await r.json();if(!r.ok)throw new Error(d.error||"Erro ao salvar.");showToast("Item salvo com sucesso.");resetItemForm();await loadAdminMenu();await loadMenu();}catch(err){showToast(err.message);}}
+async function deleteItem(id){if(!confirm("Remover este item do cardápio? O histórico dos pedidos será preservado."))return;const r=await fetch("/api/admin/items/"+id,{method:"DELETE",headers:adminHeaders()});if(r.ok){showToast("Item removido.");await loadAdminMenu();await loadMenu();}else showToast("Erro ao remover item.");}
+function resetCategoryForm(){document.getElementById("categoryForm").reset();document.getElementById("categoryId").value="";document.getElementById("categoryOldName").value="";document.getElementById("categoryIcon").value="🍽️";document.getElementById("categoryEditorTitle").textContent="Nova categoria";categoryImageData="";}
+function editCategory(id){const x=menuData.categories.find(i=>+i.id===+id);if(!x)return;document.getElementById("categoryId").value=x.id;document.getElementById("categoryOldName").value=x.name;document.getElementById("categoryName").value=x.name;document.getElementById("categoryIcon").value=x.icon||"🍽️";categoryImageData=x.image_data||"";document.getElementById("categoryEditorTitle").textContent="Editar categoria";}
+async function saveCategoryForm(e){e.preventDefault();try{const chosen=await fileData(document.getElementById("categoryImage"));if(chosen)categoryImageData=chosen;const id=document.getElementById("categoryId").value,b={name:document.getElementById("categoryName").value,old_name:document.getElementById("categoryOldName").value,icon:document.getElementById("categoryIcon").value,image_data:categoryImageData};const r=await fetch("/api/admin/categories"+(id?"/"+id:""),{method:id?"PUT":"POST",headers:{...adminHeaders(),"Content-Type":"application/json"},body:JSON.stringify(b)}),d=await r.json();if(!r.ok)throw new Error(d.error||"Erro ao salvar.");showToast("Categoria salva com sucesso.");resetCategoryForm();await loadAdminMenu();await loadMenu();}catch(err){showToast(err.message);}}
+async function deleteCategory(id){if(!confirm("Remover esta categoria?"))return;const r=await fetch("/api/admin/categories/"+id,{method:"DELETE",headers:adminHeaders()}),d=await r.json();if(r.ok){showToast("Categoria removida.");await loadAdminMenu();await loadMenu();}else showToast(d.error||"Erro ao remover categoria.");}
 
 function showToast(message){
   const toast=document.getElementById("toast");
@@ -914,10 +950,10 @@ function renderCart(){
   } else {
     document.getElementById("cartItems").innerHTML=ids.map(id=>{
       const p=products[id],qty=cart[id];
-      return `<div class="cart-item"><div class="cart-icon">${p.icon}</div><div><div class="cart-name">${p.name}</div><div class="cart-desc">${p.desc}</div><div class="cart-price">${formatMoney(p.price*qty)}</div></div><div class="cart-step"><button type="button" onclick="decreaseItem(${id})">−</button><strong>${qty}</strong><button type="button" onclick="increaseItem(${id})">+</button><button type="button" class="remove" onclick="removeItem(${id})">🗑</button></div></div>`;
+      if(!p)return "";return `<div class="cart-item"><div class="cart-icon">${imageOrIcon(p,p.name)}</div><div><div class="cart-name">${escapeHtml(p.name)}</div><div class="cart-desc">${escapeHtml(p.desc)}</div><div class="cart-price">${formatMoney(p.price*qty)}</div></div><div class="cart-step"><button type="button" onclick="decreaseItem(${id})">−</button><strong>${qty}</strong><button type="button" onclick="increaseItem(${id})">+</button><button type="button" class="remove" onclick="removeItem(${id})">🗑</button></div></div>`;
     }).join("");
   }
-  const total=ids.reduce((s,id)=>s+products[id].price*cart[id],0);
+  const total=ids.reduce((s,id)=>s+(products[id]?.price||0)*cart[id],0);
   document.getElementById("cartTotal").textContent=formatMoney(total);
 }
 
@@ -1015,7 +1051,7 @@ async function deleteOrder(id){
 function switchAdminTab(name){
   document.querySelectorAll(".admin-tab").forEach(b=>b.classList.toggle("active",b.dataset.adminTab===name));
   document.querySelectorAll(".admin-section").forEach(s=>s.classList.toggle("active",s.dataset.adminSection===name));
-  if(name==="branding") applySiteLogo(currentLogoData);
+  if(name==="branding") applySiteLogo(currentLogoData);if(name==="items"||name==="categories")loadAdminMenu();
 }
 document.querySelectorAll(".admin-tab").forEach(b=>b.addEventListener("click",()=>switchAdminTab(b.dataset.adminTab)));
 
@@ -1037,6 +1073,8 @@ async function removeLogo(){
 }
 document.getElementById("saveLogoBtn").addEventListener("click",saveLogo);
 document.getElementById("removeLogoBtn").addEventListener("click",removeLogo);
+document.getElementById("itemForm").addEventListener("submit",saveItemForm);
+document.getElementById("categoryForm").addEventListener("submit",saveCategoryForm);
 
 async function exportReport(period){
   if(!adminAuth)return;
@@ -1061,6 +1099,7 @@ document.getElementById("clearAllOrdersBtn").addEventListener("click",renderAdmi
 document.getElementById("searchOrder").addEventListener("input",()=>{if(adminAuth)renderAdmin();});
 document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)closeModal(m.id);}));
 renderCart();
+loadMenu();
 loadSiteSettings();
 loadPublicOrders();
 setInterval(loadPublicOrders,5000);

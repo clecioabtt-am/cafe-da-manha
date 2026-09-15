@@ -20,7 +20,14 @@ Senha: `admin123`
 A V8 salva os pedidos no D1. Assim, pedidos feitos por clientes em outros celulares aparecem no painel administrativo.
 
 
-## Novo na atualização: painel público de pedidos
+## Novo na V10: gestão completa do cardápio
+- Edite, insira ou remova itens no painel administrativo.
+- Altere nome, descrição, preço, categoria, ícone e imagem de cada item.
+- Crie, edite e remova categorias com imagem própria.
+- Logo ampliada e bem visível no cabeçalho e no rodapé.
+- Itens removidos são desativados para preservar o histórico dos pedidos.
+
+## Painel público de pedidos
 - Mostra os pedidos ativos do dia em ordem de chegada.
 - Exibe apenas número do pedido, primeiro nome, horário e status.
 - Atualiza automaticamente a cada 5 segundos.
@@ -33,3 +40,7 @@ Não é necessário alterar o schema do D1 para esta atualização se você já 
 
 ## V9 — atualização do banco existente
 Antes do primeiro deploy desta versão em um banco já criado, execute **uma única vez** `migration_v9.sql` no console D1 ou rode `npm run db:migrate:v9`. A migração adiciona o número da mesa e a tabela de configurações usada para a logo personalizada.
+
+
+## Atualização de banco da V10
+Em um banco D1 que já existe, execute uma única vez `npm run db:migrate:v10` antes do deploy. Em uma instalação nova, execute `schema.sql`.
