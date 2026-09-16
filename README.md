@@ -70,3 +70,9 @@ Em um banco D1 que já existe, execute uma única vez `npm run db:migrate:v10` a
 ## Ajuste V11.4
 - A página principal exibe exclusivamente pedidos com status **Novo**, **Em preparo** e **Pronto**.
 - Ao marcar um pedido como **Concluído**, ele sai imediatamente da fila pública, mas permanece no painel e nos relatórios.
+
+## Ajuste V11.5
+- Painel administrativo adaptado para uso completo em celulares e tablets.
+- Rolagem vertical do painel e rolagem horizontal das tabelas e abas.
+- Formulários, listas, botões, relatórios e personalização reorganizados para telas pequenas.
+- Área das imagens dos itens com fundo totalmente branco.
