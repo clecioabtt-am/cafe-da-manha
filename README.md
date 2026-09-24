@@ -1,4 +1,4 @@
-# Café da Manhã V11
+# Café da Manhã V12 — Responsivo + PWA
 
 ## Banco D1
 Use exatamente: `cafe-da-manha-db`
@@ -10,7 +10,7 @@ Senha: `admin123`
 ## Publicar
 1. Crie o banco D1 `cafe-da-manha-db`.
 2. Copie o `database_id`.
-3. Substitua `COLE_AQUI_O_DATABASE_ID_DO_D1` em `wrangler.toml`.
+3. Confira se o `database_id` em `wrangler.toml` corresponde ao seu banco.
 4. Execute `schema.sql` no console do D1 ou:
    `npx wrangler d1 execute cafe-da-manha-db --remote --file=./schema.sql`
 5. Rode `npm install`
@@ -76,3 +76,11 @@ Em um banco D1 que já existe, execute uma única vez `npm run db:migrate:v10` a
 - Rolagem vertical do painel e rolagem horizontal das tabelas e abas.
 - Formulários, listas, botões, relatórios e personalização reorganizados para telas pequenas.
 - Área das imagens dos itens com fundo totalmente branco.
+
+## Novo na V12
+- Interface revisada para computador, tablet Android/iPad e celulares Android/iPhone.
+- Cabeçalho, catálogo, carrinho, fila pública, formulários e painel administrativo adaptáveis.
+- Aplicativo PWA instalável pelo navegador no computador e Android.
+- No iPhone/iPad, use **Compartilhar → Adicionar à Tela de Início**.
+- Ícones próprios, tela offline, atalhos do aplicativo e atualização automática do cache.
+- O envio e a atualização de pedidos continuam exigindo conexão com a internet e acesso ao D1.
