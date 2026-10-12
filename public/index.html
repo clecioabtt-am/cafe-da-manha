@@ -12,7 +12,7 @@
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
-<title>Café da Manhã | Sua Logo Aqui</title>
+<title>Café da Manhã | Cardápio e Pedidos</title>
 <style>
 :root {
   --bg:#f7f1eb; --panel:#ffffff; --panel-soft:#fff8f1; --line:#eadbce;
@@ -372,26 +372,29 @@ button,a,input,select,textarea{touch-action:manipulation}
   .section-head{align-items:flex-start}.section-head h2{font-size:21px}#adminModal .close-btn{position:fixed;top:10px;right:10px;z-index:20}
 }
 </style>
+<link rel="stylesheet" href="/assets/premium.css">
 </head>
 <body>
+<a class="skip-link" href="#cardapio">Ir para o cardápio</a>
+<div id="connectionBanner" class="connection-banner" role="status" hidden>Você está sem conexão. Seu carrinho está salvo; conecte-se para enviar o pedido.</div>
 <header class="topbar">
   <div class="topbar-inner">
     <div class="brand" id="siteBrand">
       <div class="brand-icon">☕</div>
       <img id="headerLogo" class="brand-logo-img" alt="Logo da empresa">
       <div>
-        <strong id="brandTitle">SUA LOGO AQUI</strong>
+        <strong id="brandTitle">Café da Manhã</strong>
         <small id="brandSubtitle">Sabor que começa o seu dia!</small>
       </div>
     </div>
-    <nav class="nav">
+    <nav class="nav" aria-label="Navegação principal">
       <a class="active" href="#inicio">Início</a>
       <a href="#cardapio">Cardápio</a>
-      <a href="#vantagens">Vantagens</a>
+      <a href="#acompanhar-pedidos">Acompanhar</a>
     </nav>
     <div class="top-actions">
       <button id="installApp" class="install-btn" type="button" aria-label="Instalar aplicativo">⬇ Instalar</button>
-      <button id="openAdmin" class="admin-btn" type="button">🔐 Área Administrativa</button>
+      <button id="openAdmin" class="admin-btn" type="button">Área administrativa</button>
     </div>
   </div>
 </header>
@@ -401,28 +404,25 @@ button,a,input,select,textarea{touch-action:manipulation}
     <div class="hero-copy">
       <div class="tag">☀️ Café da manhã feito com carinho</div>
       <h1>Comece o seu dia <span>com mais sabor.</span></h1>
-      <p>Informe seu nome, escolha seus itens favoritos, acompanhe o total do pedido e finalize tudo de forma rápida e profissional.</p>
-      <div class="hero-note">Mais que um café, um bom dia! ♡</div>
+      <p>Os sabores que você ama, a poucos toques de distância. Escolha, envie seu pedido e acompanhe o preparo por aqui.</p>
+      <div class="hero-actions"><a class="hero-cta" href="#cardapio">Explorar cardápio <span aria-hidden="true">↗</span></a><a class="hero-secondary" href="#acompanhar-pedidos">Acompanhar pedido</a></div><div class="hero-note">Escolha com calma. A gente cuida do sabor.</div>
     </div>
-    <div class="hero-visual" aria-hidden="true">
-      <div class="food-box">🥪</div>
-      <div class="food-box">☕</div>
-      <div class="food-box">🌮</div>
-      <div class="food-box">🥤</div>
-    </div>
+    <div class="hero-visual" id="heroShowcase"><div class="hero-seal">FEITO COM CARINHO<br><span>Bom dia, bom sabor.</span></div><div id="heroFeatured" class="hero-featured"><div class="feature-art" aria-hidden="true">☕</div><div class="feature-caption"><small>UMA PAUSA DELICIOSA</small><strong>Seu café começa aqui.</strong></div></div><div class="hero-detail">Cardápio digital <span>•</span> Pedido sem complicação</div></div>
   </div>
 </section>
 
 <div class="wrapper">
   <div class="layout">
     <section id="cardapio" class="panel catalog-panel">
+<div class="catalog-intro"><div><small>ESCOLHA O SEU FAVORITO</small><h2>O que vai ser hoje?</h2></div><span>Seu próximo momento de sabor.</span></div>
       <div class="controls">
-        <label class="name-field">👤 <input id="customerName" type="text" placeholder="Digite seu nome aqui..." maxlength="80"></label>
+        <label class="name-field">👤 <input id="customerName" aria-label="Seu nome" autocomplete="given-name" type="text" placeholder="Seu nome para o pedido" maxlength="80"></label>
         <div class="care-box">🤎 Seu pedido será preparado com muito carinho!</div>
       </div>
       <div class="order-extra"><label class="table-field"><span>🪑 Mesa <small style="font-weight:600;color:var(--muted)">(opcional)</small></span><input id="tableNumber" type="text" inputmode="numeric" maxlength="12" placeholder="Ex.: 05"></label></div>
 
-      <div class="categories" id="categoryButtons">
+      <label class="menu-search"><span aria-hidden="true">⌕</span><input id="menuSearch" type="search" placeholder="Busque um sabor no cardápio" aria-label="Buscar produtos" autocomplete="off"></label>
+<div class="categories" id="categoryButtons" aria-label="Categorias do cardápio">
         <button class="category-btn active" type="button" onclick="setCategory('Todos', this)"><span>🍽️</span>Todos</button>
         <button class="category-btn" type="button" onclick="setCategory('Lanches', this)"><span>🥪</span>Lanches</button>
         <button class="category-btn" type="button" onclick="setCategory('Tapiocas', this)"><span>🌮</span>Tapiocas</button>
@@ -439,6 +439,7 @@ button,a,input,select,textarea{touch-action:manipulation}
         <div id="categoryCount" class="count">23 itens</div>
       </div>
 
+      <p id="searchEmpty" class="search-empty" hidden>Nenhum sabor encontrado. Tente outra busca ou categoria.</p>
       <div id="productGrid" class="product-grid">
         
     <article class="product-card" data-category="Lanches">
@@ -788,11 +789,11 @@ button,a,input,select,textarea{touch-action:manipulation}
       </div>
     </section>
 
-    <aside class="panel cart-panel">
+    <aside id="meu-pedido" class="panel cart-panel" tabindex="-1" aria-label="Resumo do pedido">
       <div class="cart-head">
         <div>
           <small>RESUMO</small>
-          <h2>🛒 Meu Pedido</h2>
+          <h2>Seu pedido</h2>
         </div>
         <div id="cartBadge" class="cart-badge">0</div>
       </div>
@@ -811,10 +812,10 @@ button,a,input,select,textarea{touch-action:manipulation}
         <strong id="cartTotal">R$ 0,00</strong>
       </div>
 
-      <button id="finishOrder" class="primary-btn" type="button">✅ Finalizar Pedido</button>
-      <button id="clearCartBtn" class="secondary-btn" type="button">🗑 Limpar Pedido</button>
+      <button id="finishOrder" class="primary-btn" type="button">Enviar pedido</button>
+      <button id="clearCartBtn" class="secondary-btn" type="button">Limpar pedido</button>
 
-      <div class="local-note">☁️ V8 conectada ao Cloudflare D1: os pedidos aparecem no painel em qualquer dispositivo.</div>
+      <div class="local-note">Confira os itens antes de enviar. O pagamento é combinado com o estabelecimento.</div>
     </aside>
   </div>
 
@@ -842,18 +843,18 @@ button,a,input,select,textarea{touch-action:manipulation}
 
 <footer>
   <div class="footer-inner">
-    <div class="footer-brand" id="footerBrand"><img id="footerLogo" class="footer-logo-img" alt="Logo da empresa"><strong class="footer-fallback">☕ SUA LOGO AQUI</strong></div>
-    <span>Modelo profissional para empreendedores de café da manhã.</span>
+    <div class="footer-brand" id="footerBrand"><img id="footerLogo" class="footer-logo-img" alt="Logo da empresa"><strong class="footer-fallback">☕ Café da Manhã</strong></div>
+    <span>Sabores especiais. Pedidos simples.</span>
   </div>
 </footer>
 
 <div id="loginModal" class="modal">
   <div class="modal-card login-card">
     <button class="close-btn" type="button" onclick="closeModal('loginModal')">×</button>
-    <h2>🔐 Área Administrativa</h2>
-    <p class="login-tip">Usuário: <strong>admin</strong><br>Senha: <strong>admin123</strong></p>
-    <label class="form-field"><span>Usuário</span><input id="adminUser" type="text"></label>
-    <label class="form-field"><span>Senha</span><input id="adminPassword" type="password"></label>
+    <h2>Área administrativa</h2>
+    <p class="login-tip">Entre com as credenciais do estabelecimento para gerenciar o cardápio e os pedidos.</p>
+    <label class="form-field"><span>Usuário</span><input id="adminUser" autocomplete="username" type="text"></label>
+    <label class="form-field"><span>Senha</span><input id="adminPassword" autocomplete="current-password" type="password"></label>
     <p id="loginError" class="login-error"></p>
     <button id="doLogin" class="login-submit" type="button">Entrar</button>
   </div>
@@ -946,9 +947,21 @@ button,a,input,select,textarea{touch-action:manipulation}
   </div>
 </div>
 
-<div id="toast" class="toast"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+<a id="mobileCart" class="mobile-cart" href="#meu-pedido" aria-label="Ver seu pedido"><span class="mobile-cart-count" id="mobileCartCount">0</span><span><strong>Ver meu pedido</strong><small id="mobileCartHint">Escolha seus favoritos</small></span><b id="mobileCartTotal">R$ 0,00</b><span aria-hidden="true">→</span></a>
 <script>
+function normalizeSearch(value){return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();}
+function reconcileCart(){Object.keys(cart).forEach(id=>{if(!products[id]||!Number.isInteger(cart[id])||cart[id]<1)delete cart[id];else cart[id]=Math.min(99,cart[id]);});document.querySelectorAll('[id^="qty-"]').forEach(el=>el.textContent=cart[el.id.slice(4)]||0);}
+function updateCartExperience(ids,total){const count=ids.reduce((n,id)=>n+(products[id]?cart[id]:0),0);document.getElementById("mobileCartCount").textContent=count;document.getElementById("mobileCartTotal").textContent=formatMoney(total);document.getElementById("mobileCartHint").textContent=count?count+" "+(count===1?"item selecionado":"itens selecionados"):"Escolha seus favoritos";document.getElementById("finishOrder").disabled=sendingOrder||!menuReady||!count||!navigator.onLine;document.querySelectorAll(".product-card").forEach(card=>{const q=card.querySelector('[id^="qty-"]');card.classList.toggle("selected",!!(q&&cart[q.id.slice(4)]));});try{localStorage.setItem("cafe-cart-v13",JSON.stringify(cart));}catch{}}
+function enhanceButtons(){document.querySelectorAll(".product-card,.cart-item").forEach(card=>{const name=card.querySelector("h3,.cart-name")?.textContent||"item";card.querySelectorAll(".stepper button,.cart-step button").forEach(btn=>{btn.setAttribute("aria-label",(btn.classList.contains("remove")?"Remover ":btn.textContent.trim()==="+"?"Adicionar uma unidade de ":"Retirar uma unidade de ")+name);});});}
+function renderShowcase(){const item=menuData.items.find(x=>x.image_data)||menuData.items[0];if(!item)return;document.getElementById("heroFeatured").innerHTML='<div class="feature-art">'+imageOrIcon(item,item.name)+'</div><div class="feature-caption"><small>DO NOSSO CARDÁPIO</small><strong>'+escapeHtml(item.name)+'</strong><span>'+formatMoney(item.price)+'</span></div>';}
+function updateConnection(){document.getElementById("connectionBanner").hidden=navigator.onLine;renderCart();}
+document.getElementById("menuSearch").addEventListener("input",()=>setCategory(selectedCategory,document.querySelector(".category-btn.active")));
+window.addEventListener("offline",updateConnection);
+window.addEventListener("online",()=>{updateConnection();loadMenu();loadPublicOrders();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal.open").forEach(m=>closeModal(m.id));});
+document.getElementById("mobileCart").addEventListener("click",()=>document.getElementById("meu-pedido").focus({preventScroll:true}));
 let deferredInstallPrompt = null;
 const installAppButton = document.getElementById("installApp");
 const isAppleMobile=/iphone|ipad|ipod/i.test(navigator.userAgent);
@@ -988,6 +1001,9 @@ document.querySelectorAll(".product-card").forEach(card => {
 });
 
 let cart = {};
+let sendingOrder=false;
+let menuReady=false;
+try{cart=JSON.parse(localStorage.getItem("cafe-cart-v13")||"{}");if(!cart||typeof cart!=="object"||Array.isArray(cart))cart={};}catch{cart={};}
 let adminAuth = null;
 let highlightedPublicOrder = null;
 
@@ -1003,17 +1019,17 @@ function applySiteLogo(data){
   if(preview){preview.src=currentLogoData||"";preview.style.display=currentLogoData?"block":"none";}
   if(placeholder)placeholder.style.display=currentLogoData?"none":"block";
 }
-const appearanceDefaults={brand_title:"SUA LOGO AQUI",brand_subtitle:"Sabor que começa o seu dia!",brand:"#6b3218",brand2:"#8d441f",brand3:"#4f210f",gold:"#ffc34b",green:"#14a44d",background:"#f7f1eb",text:"#2e1a10",title_color:"#ffcd62",subtitle_color:"#ffffff"};
+const appearanceDefaults={brand_title:"Café da Manhã",brand_subtitle:"Sabor que começa o seu dia!",brand:"#6b3218",brand2:"#8d441f",brand3:"#4f210f",gold:"#ffc34b",green:"#14a44d",background:"#f7f1eb",text:"#2e1a10",title_color:"#ffcd62",subtitle_color:"#ffffff"};
 let currentAppearance={...appearanceDefaults};
-function applyAppearance(value={}){currentAppearance={...appearanceDefaults,...value};const a=currentAppearance,root=document.documentElement.style;root.setProperty("--brand",a.brand);root.setProperty("--brand2",a.brand2);root.setProperty("--brand3",a.brand3);root.setProperty("--gold",a.gold);root.setProperty("--green",a.green);root.setProperty("--bg",a.background);root.setProperty("--text",a.text);root.setProperty("--brand-title-color",a.title_color);root.setProperty("--brand-subtitle-color",a.subtitle_color);document.getElementById("brandTitle").textContent=a.brand_title;document.getElementById("brandSubtitle").textContent=a.brand_subtitle;document.getElementById("appearancePreviewTitle").textContent=a.brand_title;document.getElementById("appearancePreviewSubtitle").textContent=a.brand_subtitle;const fields={appearanceTitle:a.brand_title,appearanceSubtitle:a.brand_subtitle,colorBrand:a.brand,colorBrand2:a.brand2,colorBrand3:a.brand3,colorGold:a.gold,colorGreen:a.green,colorBackground:a.background,colorText:a.text,colorTitle:a.title_color,colorSubtitle:a.subtitle_color};Object.entries(fields).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v});}
+function applyAppearance(value={}){currentAppearance={...appearanceDefaults,...value};const a=currentAppearance;if(a.brand_title==="SUA LOGO AQUI")a.brand_title="Café da Manhã";document.title=a.brand_title+" | Cardápio e Pedidos";document.querySelector(".footer-fallback").textContent=a.brand_title;document.querySelector('meta[name="theme-color"]').content=a.brand;const root=document.documentElement.style;root.setProperty("--brand",a.brand);root.setProperty("--brand2",a.brand2);root.setProperty("--brand3",a.brand3);root.setProperty("--gold",a.gold);root.setProperty("--green",a.green);root.setProperty("--bg",a.background);root.setProperty("--text",a.text);root.setProperty("--brand-title-color",a.title_color);root.setProperty("--brand-subtitle-color",a.subtitle_color);document.getElementById("brandTitle").textContent=a.brand_title;document.getElementById("brandSubtitle").textContent=a.brand_subtitle;document.getElementById("appearancePreviewTitle").textContent=a.brand_title;document.getElementById("appearancePreviewSubtitle").textContent=a.brand_subtitle;const fields={appearanceTitle:a.brand_title,appearanceSubtitle:a.brand_subtitle,colorBrand:a.brand,colorBrand2:a.brand2,colorBrand3:a.brand3,colorGold:a.gold,colorGreen:a.green,colorBackground:a.background,colorText:a.text,colorTitle:a.title_color,colorSubtitle:a.subtitle_color};Object.entries(fields).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v});}
 async function loadSiteSettings(){try{const r=await fetch("/api/settings",{cache:"no-store"});if(r.ok){const d=await r.json();applySiteLogo(d.logo_data||"");applyAppearance(d.appearance||{});}}catch(e){applyAppearance({});}}
 async function saveAppearanceForm(e){e.preventDefault();if(!adminAuth)return;const a={brand_title:document.getElementById("appearanceTitle").value,brand_subtitle:document.getElementById("appearanceSubtitle").value,brand:document.getElementById("colorBrand").value,brand2:document.getElementById("colorBrand2").value,brand3:document.getElementById("colorBrand3").value,gold:document.getElementById("colorGold").value,green:document.getElementById("colorGreen").value,background:document.getElementById("colorBackground").value,text:document.getElementById("colorText").value,title_color:document.getElementById("colorTitle").value,subtitle_color:document.getElementById("colorSubtitle").value};const r=await fetch("/api/admin/settings/appearance",{method:"PUT",headers:{...adminHeaders(),"Content-Type":"application/json"},body:JSON.stringify(a)}),d=await r.json().catch(()=>({}));if(r.ok){applyAppearance(d.appearance||a);showToast("Cores e textos atualizados.");}else showToast(d.error||"Erro ao salvar a personalização.");}
 let menuData={items:[],categories:[]}, itemImageData="", categoryImageData="";
 function imageOrIcon(x,alt=""){return x.image_data?`<img src="${x.image_data}" alt="${escapeHtml(alt)}">`:escapeHtml(x.icon||"🍽️");}
 async function loadMenu(){
   try{const r=await fetch("/api/menu",{cache:"no-store"});if(!r.ok)throw new Error();menuData=await r.json();Object.keys(products).forEach(k=>delete products[k]);menuData.items.forEach(x=>products[+x.id]={id:+x.id,name:x.name,category:x.category,price:+x.price,icon:x.icon||"🍽️",image_data:x.image_data||"",desc:x.description||""});
-    document.getElementById("categoryButtons").innerHTML=`<button class="category-btn active" type="button" onclick="setCategory('Todos',this)"><span class="category-media">🍽️</span>Todos</button>`+menuData.categories.map(c=>`<button class="category-btn" type="button" onclick='setCategory(${JSON.stringify(c.name)},this)'><span class="category-media">${c.image_data?`<img src="${c.image_data}" alt="${escapeHtml(c.name)}">`:escapeHtml(c.icon||"🍽️")}</span>${escapeHtml(c.name)}</button>`).join("");
-    document.getElementById("productGrid").innerHTML=menuData.items.map(x=>`<article class="product-card" data-category="${escapeHtml(x.category)}"><div class="product-visual">${imageOrIcon(x,x.name)}</div><div class="product-info"><h3>${escapeHtml(x.name)}</h3><p>${escapeHtml(x.description||"")}</p><div class="price">${formatMoney(x.price)}</div></div><div class="stepper"><button type="button" onclick="decreaseItem(${+x.id})">−</button><strong id="qty-${+x.id}">${cart[+x.id]||0}</strong><button type="button" onclick="increaseItem(${+x.id})">+</button></div></article>`).join("");setCategory("Todos",document.querySelector("#categoryButtons .category-btn"));renderCart();
+    document.getElementById("categoryButtons").innerHTML=`<button class="category-btn active" type="button" onclick="setCategory('Todos',this)"><span class="category-media">🍽️</span>Todos</button>`+menuData.categories.map(c=>`<button class="category-btn" type="button" onclick='setCategory(${escapeHtml(JSON.stringify(c.name))},this)'><span class="category-media">${c.image_data?`<img src="${c.image_data}" alt="${escapeHtml(c.name)}">`:escapeHtml(c.icon||"🍽️")}</span>${escapeHtml(c.name)}</button>`).join("");
+    document.getElementById("productGrid").innerHTML=menuData.items.map(x=>`<article class="product-card" data-category="${escapeHtml(x.category)}"><div class="product-visual">${imageOrIcon(x,x.name)}</div><div class="product-info"><h3>${escapeHtml(x.name)}</h3><p>${escapeHtml(x.description||"")}</p><div class="price">${formatMoney(x.price)}</div></div><div class="stepper"><button type="button" onclick="decreaseItem(${+x.id})">−</button><strong id="qty-${+x.id}">${cart[+x.id]||0}</strong><button type="button" onclick="increaseItem(${+x.id})">+</button></div></article>`).join("");setCategory("Todos",document.querySelector("#categoryButtons .category-btn"));menuReady=true;reconcileCart();renderCart();renderShowcase();enhanceButtons();
   }catch(e){showToast("Não foi possível carregar o cardápio atualizado.");}
 }
 function fileData(input){return new Promise((resolve,reject)=>{const f=input.files?.[0];if(!f)return resolve("");if(f.size>900000)return reject(new Error("Use uma imagem de até 900 KB."));const rd=new FileReader();rd.onload=()=>resolve(String(rd.result||""));rd.onerror=()=>reject(new Error("Não foi possível ler a imagem."));rd.readAsDataURL(f);});}
@@ -1039,21 +1055,26 @@ function showToast(message){
 }
 function openModal(id){document.getElementById(id).classList.add("open");document.body.style.overflow="hidden";}
 function closeModal(id){document.getElementById(id).classList.remove("open");if(!document.querySelector(".modal.open"))document.body.style.overflow="";}
+let selectedCategory="Todos";
 function setCategory(category, button){
+  selectedCategory=category;
   document.querySelectorAll(".category-btn").forEach(btn=>btn.classList.remove("active"));
   if(button) button.classList.add("active");
+  document.querySelectorAll(".category-btn").forEach(btn=>btn.setAttribute("aria-pressed",String(btn===button)));
   let count=0;
   document.querySelectorAll(".product-card").forEach(card=>{
-    const visible=category==="Todos" || card.dataset.category===category;
+    const term=normalizeSearch(document.getElementById("menuSearch").value);
+    const visible=(category==="Todos" || card.dataset.category===category) && normalizeSearch(card.querySelector(".product-info").textContent).includes(term);
     card.classList.toggle("hidden",!visible); if(visible) count++;
   });
   document.getElementById("categoryTitle").textContent=category==="Todos"?"Todos os itens":category;
   document.getElementById("categoryCount").textContent=count+" "+(count===1?"item":"itens");
+  document.getElementById("searchEmpty").hidden=count>0;
 }
-function increaseItem(id){id=Number(id);cart[id]=(cart[id]||0)+1;const q=document.getElementById("qty-"+id);if(q)q.textContent=cart[id];renderCart();}
-function decreaseItem(id){id=Number(id);if(!cart[id])return;cart[id]--;if(cart[id]<=0)delete cart[id];const q=document.getElementById("qty-"+id);if(q)q.textContent=cart[id]||0;renderCart();}
-function removeItem(id){id=Number(id);delete cart[id];const q=document.getElementById("qty-"+id);if(q)q.textContent="0";renderCart();}
-function clearCart(){cart={};document.querySelectorAll('[id^="qty-"]').forEach(el=>el.textContent="0");renderCart();showToast("Pedido limpo.");}
+function increaseItem(id){if(sendingOrder)return;id=Number(id);if(!products[id])return;if((cart[id]||0)>=99){showToast("Limite de 99 unidades por item.");return;}cart[id]=(cart[id]||0)+1;const q=document.getElementById("qty-"+id);if(q)q.textContent=cart[id];renderCart();}
+function decreaseItem(id){if(sendingOrder)return;id=Number(id);if(!cart[id])return;cart[id]--;if(cart[id]<=0)delete cart[id];const q=document.getElementById("qty-"+id);if(q)q.textContent=cart[id]||0;renderCart();}
+function removeItem(id){if(sendingOrder)return;id=Number(id);delete cart[id];const q=document.getElementById("qty-"+id);if(q)q.textContent="0";renderCart();}
+function clearCart(){if(sendingOrder)return;cart={};document.querySelectorAll('[id^="qty-"]').forEach(el=>el.textContent="0");renderCart();showToast("Pedido limpo.");}
 function renderCart(){
   const ids=Object.keys(cart).map(Number);
   document.getElementById("cartBadge").textContent=ids.reduce((s,id)=>s+cart[id],0);
@@ -1067,6 +1088,7 @@ function renderCart(){
   }
   const total=ids.reduce((s,id)=>s+(products[id]?.price||0)*cart[id],0);
   document.getElementById("cartTotal").textContent=formatMoney(total);
+  updateCartExperience(ids,total);enhanceButtons();
 }
 
 
@@ -1107,8 +1129,12 @@ async function loadPublicOrders(){
 async function finishOrder(){
   const customer=document.getElementById("customerName").value.trim();
   const ids=Object.keys(cart).map(Number);
-  if(!customer){showToast("Digite o nome do cliente.");return;}
+  if(!customer){showToast("Informe seu nome para enviar o pedido.");document.getElementById("customerName").focus();return;}
+  if(!navigator.onLine){showToast("Conecte-se à internet para enviar o pedido.");return;}
+  if(sendingOrder)return;
+  if(!menuReady){showToast("Aguarde o carregamento do cardápio atualizado.");return;}
   if(!ids.length){showToast("Selecione pelo menos um item.");return;}
+  sendingOrder=true;document.getElementById("finishOrder").disabled=true;document.getElementById("finishOrder").textContent="Enviando pedido…";
   try{
     const r=await fetch("/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
       customer_name:customer,table_number:document.getElementById("tableNumber").value.trim(),note:document.getElementById("orderNote").value.trim(),
@@ -1117,11 +1143,12 @@ async function finishOrder(){
     const data=await r.json();
     if(!r.ok){showToast(data.error||"Erro ao enviar pedido.");return;}
     highlightedPublicOrder=String(data.order_number);
-    clearCart();document.getElementById("orderNote").value="";document.getElementById("tableNumber").value="";
+    sendingOrder=false;clearCart();document.getElementById("orderNote").value="";document.getElementById("tableNumber").value="";
     await loadPublicOrders();
     document.getElementById("acompanhar-pedidos").scrollIntoView({behavior:"smooth",block:"start"});
     showToast("Pedido #"+data.order_number+" realizado!");
-  }catch(e){showToast("Falha de conexão com o servidor.");}
+  }catch(e){showToast("Não conseguimos confirmar o envio. Confira o acompanhamento antes de tentar novamente.");}
+  finally{sendingOrder=false;document.getElementById("finishOrder").textContent="Enviar pedido";renderCart();}
 }
 
 async function loginAdmin(){
@@ -1198,7 +1225,7 @@ async function exportReport(period){
   const d=await r.json();
   const labels={daily:"Relatório diário",weekly:"Relatório semanal",monthly:"Relatório mensal"};
   const rows=d.orders.map(o=>`<tr><td>#${escapeHtml(o.order_number)}</td><td>${escapeHtml(o.customer_name)}</td><td>${o.table_number?escapeHtml(o.table_number):"—"}</td><td>${o.items.map(i=>`${Number(i.quantity)}x ${escapeHtml(i.name)}`).join("<br>")}</td><td>${escapeHtml(o.status)}</td><td>${new Date(o.created_at+"Z").toLocaleString("pt-BR")}</td><td style="text-align:right">${formatMoney(o.total)}</td></tr>`).join("");
-  const logo=currentLogoData?`<img src="${currentLogoData}" style="max-height:55px;max-width:170px;object-fit:contain">`:`<strong style="font-size:20px">☕ SUA LOGO AQUI</strong>`;
+  const logo=currentLogoData?`<img src="${currentLogoData}" style="max-height:55px;max-width:170px;object-fit:contain">`:`<strong style="font-size:20px">☕ Café da Manhã</strong>`;
   const doc=`<!doctype html><html><head><meta charset="utf-8"><title>${labels[period]}</title><style>@page{size:A4 landscape;margin:12mm}body{font-family:Arial,sans-serif;color:#24150e;font-size:11px}header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #6b3218;padding-bottom:10px;margin-bottom:12px}h1{margin:0;color:#6b3218;font-size:22px}p{margin:4px 0;color:#6f5d52}.summary{display:flex;gap:12px;margin:12px 0}.summary div{border:1px solid #ddd;border-radius:8px;padding:8px 12px}.summary b{display:block;font-size:16px;color:#6b3218}table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid #ddd;padding:7px 6px;text-align:left;vertical-align:top}th{background:#f1e7df;color:#5a3523}tr{break-inside:avoid}footer{margin-top:12px;text-align:right;color:#777;font-size:9px}</style></head><body><header><div>${logo}</div><div style="text-align:right"><h1>${labels[period]}</h1><p>${escapeHtml(d.period_label)}</p></div></header><div class="summary"><div>Pedidos<b>${d.summary.orders}</b></div><div>Faturamento<b>${formatMoney(d.summary.revenue)}</b></div><div>Gerado em<b style="font-size:12px">${new Date().toLocaleString("pt-BR")}</b></div></div><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Mesa</th><th>Itens</th><th>Status</th><th>Data/Hora</th><th style="text-align:right">Total</th></tr></thead><tbody>${rows||'<tr><td colspan="7" style="text-align:center;padding:30px">Nenhum pedido no período.</td></tr>'}</tbody></table><footer>Relatório gerado pelo sistema de pedidos Café da Manhã.</footer><script>window.onload=()=>setTimeout(()=>window.print(),250)<\/script></body></html>`;
   const w=window.open("","_blank");if(!w){showToast("Permita pop-ups para exportar o PDF.");return;}w.document.open();w.document.write(doc);w.document.close();
 }
@@ -1212,11 +1239,13 @@ document.getElementById("clearAllOrdersBtn").textContent="Atualizar";
 document.getElementById("clearAllOrdersBtn").addEventListener("click",renderAdmin);
 document.getElementById("searchOrder").addEventListener("input",()=>{if(adminAuth)renderAdmin();});
 document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)closeModal(m.id);}));
+enhanceButtons();
+document.getElementById("connectionBanner").hidden=navigator.onLine;
 renderCart();
 loadMenu();
 loadSiteSettings();
 loadPublicOrders();
-setInterval(loadPublicOrders,2000);
+setInterval(()=>{if(!document.hidden&&navigator.onLine)loadPublicOrders();},5000);
 window.addEventListener("focus",loadPublicOrders);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)loadPublicOrders();});
 </script>
